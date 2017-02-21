@@ -6,3 +6,8 @@ readMatfile <- function(matfile, folder = project.extdata) {
   print(str(ret))
   return(ret)
 }
+
+savetoRda <- function(..., file, folder = project.data) {
+  rdafileLong <- paste(folder, file, sep = "/")
+  save(..., file = rdafileLong)
+}

@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(RcppOctave)
+.CallOctave("version")
+```
+
+```{r}
+loader <- OctaveFunction("
+function [DF] = readMatfile()
+  clear
+  load('leukemia.mat')
+  DF = whos();
+end")
+```
+
+
+```{r}
+getwd()
+```
+
+```{r}
+ld <- loader()
+names(ld)
+```
+
+```{r}
+ld$name
+ld$size
+ld$bytes
+ld$class
+```
+
+```{r}
+df <- data.frame(ld$name, ld$bytes, ld$class)
+```
+

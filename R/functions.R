@@ -13,7 +13,8 @@ savetoRda <- function(..., file, folder = project.data) {
   save(..., file = rdafileLong)
 }
 
-
+#' load .mat file in Octave
+#' and get basic info
 o.loader <- OctaveFunction("
 function [struct] = readMatfile(mfile)
   load(mfile)
@@ -21,6 +22,8 @@ function [struct] = readMatfile(mfile)
 end
 ")
 
+#' get information of .mat file objects
+#' as a data frame
 matInfo <- function(matFile) {
   ld <- o.loader(matFile)
   sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")

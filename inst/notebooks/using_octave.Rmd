@@ -53,23 +53,42 @@ df
 ```
 
 ```{r}
-loader2 <- OctaveFunction("
-function [DF] = readM(m)
-  clear
-  m
-  % load(fileM)
-  DF = whos();
+library(RcppOctave)
+
+o.loader <- OctaveFunction("
+function [struct] = readMatfile(mfile)
+  load(mfile)
+  struct = whos();
 end
 ")
 
+matInfo <- function(matFile) {
+  ld <- o.loader(matFile)
+  sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+  df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+  return(df)
+}
 
-#l2 <- loader2(project.extdata, "cereal.mat", sep = "/")
 ```
 
 ```{r}
-#l2 <- loader2(project.extdata, "cereal.mat", sep = "/")
+mat <- paste(project.extdata, "abrasion.mat", sep = "/")
+# l2 <- ldr(mat)
+matInfo(mat)
+```
+
+
+
+
+
+
+
+
+
+```{r}
+
 mat <- 'leukemia.mat'
-l2 <- loader2(3)
+ldr(mat)
 ```
 
 ```{r}

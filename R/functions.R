@@ -18,6 +18,7 @@ savetoRda <- function(..., file, folder = project.data) {
 o.loader <- OctaveFunction("
 function [struct] = readMatfile(mfile)
   load(mfile)
+  clear mfile;
   struct = whos();
 end
 ")

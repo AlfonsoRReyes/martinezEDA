@@ -10,7 +10,9 @@ convertMat2Rda <- function(mat_files) {
     alist <- readMatfile(i, verbose = FALSE)
     ulist <- unlist(alist)
     # print(names(alist))
-    str(ulist)
+    # str(ulist)
+    cat(typeof(ulist), "\n")
+    cat(length(ulist))
   }
 }
 ```
@@ -19,5 +21,29 @@ convertMat2Rda <- function(mat_files) {
 ```{r}
 v <- c("cereal.mat", "data.mat", "environmental.mat")
 convertMat2Rda(v)
+```
+
+```{r}
+l <- list(list(col1="a",col2=1),list(col1="b",col2=2))
+f = function(x) function(i) unlist(lapply(x, `[[`, i), use.names=FALSE)
+as.data.frame(Map(f(l), names(l[[1]])))
+```
+
+```{r}
+f = function(x) 
+  function(i) 
+    unlist(lapply(x, `[[`, i), use.names=FALSE)
+
+  
+mat <- "example32.mat"
+mat <- "data.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+# str(alist)
+
+#as.data.frame(Map(f(alist), names(alist[[1]])))
+# Map(f(alist), names(alist[[1]]))
+
+lapply(alist, `[[`, )
+
 ```
 

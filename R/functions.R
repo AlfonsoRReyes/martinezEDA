@@ -2,7 +2,7 @@ library(R.matlab)
 
 readMatfile <- function(matfile, folder = project.extdata, verbose = FALSE) {
   matfileLong <- paste(folder, matfile, sep = "/")
-  ret <- readMat(matfileLong, fixNames = TRUE)
+  ret <- readMat(matfileLong, fixNames = FALSE)
   if (verbose) print(str(ret))
   return(ret)
 }

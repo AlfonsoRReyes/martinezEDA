@@ -1,0 +1,84 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+a <- list(a = 1:3, b = "a string", c = pi, d = list(-1, -5))
+
+```
+
+```{r}
+str(a[1:2])
+```
+
+```{r}
+str(a[4])
+```
+
+```{r}
+a["d"]
+a[["d"]]
+```
+
+```{r}
+library(purrr)
+
+mat <- "cereal.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+# length(alist)
+
+ty <- unlist(lapply(alist, typeof))
+cl <- unlist(lapply(alist, class))
+le <- unlist(lapply(alist, length))
+di <- unlist(lapply(alist, dim))
+
+df1 <- data.frame(ty, cl, le, di)
+df1
+```
+
+```{r}
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+ty <- NULL
+cl <- NULL
+le <- NULL
+di <- NULL
+
+for (item in alist) {
+  #print(typeof(item))
+  ty <- c(ty, typeof(item))
+  cl <- c(cl, class(item))
+  le <- c(le, length(item))
+  if (typeof(item) == 'list') {
+    #print(class(item[1]))
+  }
+  if (class(item) == 'matrix') {
+    
+    di <- c(di, paste(dim(item), collapse = "x"))
+    # adim <- dim(item)
+    #print(length(adim))
+  }
+  else di <- c(di, "NA")
+}
+nam <- names(alist)
+df <- data.frame(nam, ty, cl, le, di)
+#ty; cl; le; di
+```
+
+
+
+```{r}
+library(purrr)
+
+mat <- "cereal.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+
+la0 <- lapply(alist, `[`)
+la0
+```
+
+

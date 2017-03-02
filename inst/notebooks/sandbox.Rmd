@@ -1,0 +1,21 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+convertMat2Rda <- function(mat_files) {
+  for (i in mat_files) {
+    print(i)
+    alist <- readMatfile(i)
+    ulist <- unlist(alist)
+  }
+}
+```
+
+
+```{r}
+v <- c("cereal.mat", "data.mat", "environmental.mat")
+convertMat2Rda(v)
+```
+

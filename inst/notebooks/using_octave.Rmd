@@ -19,10 +19,6 @@ end")
 
 
 ```{r}
-getwd()
-```
-
-```{r}
 ld <- loader()
 names(ld)
 ```
@@ -50,8 +46,33 @@ paste(sapply(size, `[[`, 1), sapply(size, `[[`, 2), sep = "x")
 
 
 ```{r}
+# convert to data frame
 sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
 df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
 df
+```
+
+```{r}
+loader2 <- OctaveFunction("
+function [DF] = readM(m)
+  clear
+  m
+  % load(fileM)
+  DF = whos();
+end
+")
+
+
+#l2 <- loader2(project.extdata, "cereal.mat", sep = "/")
+```
+
+```{r}
+#l2 <- loader2(project.extdata, "cereal.mat", sep = "/")
+mat <- 'leukemia.mat'
+l2 <- loader2(3)
+```
+
+```{r}
+getwd()
 ```
 

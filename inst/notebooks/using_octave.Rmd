@@ -38,3 +38,20 @@ ld$class
 df <- data.frame(ld$name, ld$bytes, ld$class)
 ```
 
+```{r}
+size <- ld$size
+sapply(size, `[[`, 1)
+sapply(size, `[[`, 2)
+```
+
+```{r}
+paste(sapply(size, `[[`, 1), sapply(size, `[[`, 2), sep = "x")
+```
+
+
+```{r}
+sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+df
+```
+

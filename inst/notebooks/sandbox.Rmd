@@ -7,8 +7,10 @@ output: html_notebook
 convertMat2Rda <- function(mat_files) {
   for (i in mat_files) {
     print(i)
-    alist <- readMatfile(i)
+    alist <- readMatfile(i, verbose = FALSE)
     ulist <- unlist(alist)
+    # print(names(alist))
+    str(ulist)
   }
 }
 ```

@@ -50,7 +50,7 @@ getCell.dim <- function(df, cellName) {
 }
 
 
-saveMatlabVars <- function(matfile, mf, matList) {
+saveMatlabVars <- function() {
   e <- new.env()
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
   toSave <- NULL
@@ -63,7 +63,7 @@ saveMatlabVars <- function(matfile, mf, matList) {
     dim <- as.integer(unlist(strsplit(size, "x")))
     # cat(" ", kls, dim)
     if (kls == "cell") {
-      if (dim[2] > 1) stop("more than one column ...")
+      if (dim[2] & dim[1] > 1) stop("more than one column ...")
       # cat("cell")
       assign(item, unlist(matList[[item]]) )  # unlist if object is a cell
     } else {

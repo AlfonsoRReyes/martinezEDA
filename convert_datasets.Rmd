@@ -432,4 +432,144 @@ matList <- readMatfile(matfile)
 saveMatlabVars(matfile, mf, matList)
 ```
 
+## software
+```{r}
+matfile <- "software.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## spam
+```{r}
+matfile <- "spam.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## sparrow
+```{r}
+matfile <- "spam.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## stockreturns
+```{r}
+matfile <- "stockreturns.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## swissroll
+```{r}
+matfile <- "swissroll.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## votfraud
+```{r}
+matfile <- "votfraud.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## yeast
+```{r}
+matfile <- "yeast.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## hamster
+```{r}
+matfile <- "hamster.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## iradbpm
+```{r}
+matfile <- "iradbpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## iris
+```{r}
+matfile <- "iris.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## L1bpm
+```{r}
+matfile <- "L1bpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## sparrow
+```{r}
+matfile <- "sparrow.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
 

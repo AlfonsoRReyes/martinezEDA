@@ -34,6 +34,22 @@ ld$class
 df <- data.frame(ld$name, ld$bytes, ld$class)
 ```
 
+
+```{r}
+retVar <- OctaveFunction("
+function [var] = readMatfile()
+  clear
+  load('leukemia.mat')
+  DF = whos();
+  var = geneinfo;
+end")
+
+retVar()
+```
+
+
+
+
 ```{r}
 size <- ld$size
 sapply(size, `[[`, 1)

@@ -27,7 +27,12 @@ end
 #' as a data frame
 matInfo <- function(matFile) {
   ld <- o.loader(matFile)
-  sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+  if (typeof(ld$size) == 'list') {
+    sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+  } else {
+    sz <- paste(sapply(ld$size, `[[`, 1), collapse = "x")
+  }
+  # sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
   df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
   return(df)
 }

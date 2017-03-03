@@ -576,14 +576,15 @@ saveMatlabVars()
 ```{r}
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
   toSave <- NULL
+  rdf <- data.frame()
 
   for (item in mf$name) {
     item <- as.character(item)   # convert to character
-    # cat(item)
+    cat(item)
     kls <- as.character(mf[mf$name == item, "class"]) # get object class
     size <- as.character(mf[mf$name == item,][1, 'size'])
     dim <- as.integer(unlist(strsplit(size, "x")))
-    # cat(" ", kls, dim)
+    cat(" ", kls, dim)
     if (kls == "cell") {
       if (dim[2] & dim[1] > 1) stop("more than one column ...")
       # cat("cell")
@@ -591,12 +592,17 @@ saveMatlabVars()
     } else {
       assign(item, matList[[item]])
     }
-    # cat("\n")
+    
     toSave <- c(toSave, item)
+    cat(class(get(item)))
+    row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
+    rdf <- rbind(row, rdf)
+    cat("\n")
     
   }
   # toSave
   savetoRda(list = toSave, file = rdaFile)
+  rdf
 ```
 
 
@@ -608,17 +614,21 @@ getObject.info <- function(item) {
   len <- length(obj)
   kls <- class(obj)
   to <- typeof(obj)
-  list(varname = item, dims = dims, length = len, class = kls, typeof = to)
+  #cat(item, class(get(item)), "\n")
+  list(Rname = item, dims = dims, 
+       length = len, Rclass = kls, typeof = to)
 }
 
 #data.frame(getObject.info(item))
 df <- data.frame()
 for (item in toSave) {
   #print(item)
-  row <- data.frame(getObject.info(item))
+  row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
   df <- rbind(row, df)
 }
-df
+
+df[order(df[, 1]), ]
+#df
 
 ```
 

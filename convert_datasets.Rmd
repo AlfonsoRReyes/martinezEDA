@@ -78,7 +78,8 @@ geneinfo <- unlist(matList$geneinfo)    # unlist because object is a cell
 ```{r}
 getCell.dim <- function(df, cellName) {
   size <- as.character(df[df$name == cellName,][1, 'size'])
-  as.integer(unlist(strsplit(size, "x")))
+  dim <- as.integer(unlist(strsplit(size, "x")))
+  return(dim)
 }
 
 getCell.dim(mf, "geneinfo")
@@ -109,5 +110,9 @@ geneinfo.size[1,1] %>%
   unlist() %>%
   head(1) %>%
   as.integer()
+```
+
+```{r}
+mf
 ```
 

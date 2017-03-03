@@ -117,6 +117,13 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
+
+comment <- matList$comment
+Compression <- matList$Compression
+Equivalence <- matList$Equivalence
+NOx <- matList$NOx
+
+savetoRda(comment, Compression, Equivalence, NOx, file = "ethanol.rda")
 ```
 
 
@@ -198,6 +205,71 @@ geneinfo <- geneinfo.df
 savetoRda(btcell, cancertype, leukemia, geneinfo, file = "leukemia.rda")
 
 ```
+
+
+## livestock
+```{r}
+matfile <- "livestock.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+comment       <- matList$comment
+Count         <- matList$Count
+Country       <- matList$Country
+CountryName   <- unlist(matList$CountryName)
+LivestockName <- unlist(matList$LivestockName)
+LivestockType <- matList$LivestockType
+
+savetoRda(comment,  
+          Count,        
+          Country,
+          CountryName,
+          LivestockName, 
+          LivestockType,
+          file = "livestock.rda"
+)
+```
+
+## lsiex
+```{r}
+matfile <- "lsiex.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+docs    <- unlist(matList$docs)
+termdoc <- matList$termdoc
+words   <- matList$words
+X       <- matList$X
+
+savetoRda(docs,
+          termdoc,
+          words,  
+          X,
+          file = "lsiex.rda")
+```
+
+## lungA
+```{r}
+matfile <- "lungA.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+labA <- unlist(matList$labA)
+lungA <- matList$lungA
+
+savetoRda(labA, lungA, file = "lungA.rda")
+```
+
+
 
 
 

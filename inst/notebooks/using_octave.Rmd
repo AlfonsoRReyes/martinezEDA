@@ -89,7 +89,7 @@ if (typeof(ld$size) == 'list') {
 }
 sz    # numeric
 
-#df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
 ```
 
 ```{r}
@@ -159,15 +159,68 @@ mf <- matInfo(matfilepath)
 mf
 
 matList <- readMatfile(matfile)
-names(matList)
+
+geyser <- matList$geyser
+savetoRda(geyser, file = "geyser.rda")
 ```
 
 
 
 
+```{r}
+matfile <- "forearm.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+# names(matList)
+forearm <- matList$forearm
+savetoRda(forearm, file = "forearm.rda")
+```
 
 
 ```{r}
-getwd()
+matfile <- "leukemia.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+geneinfo <- matList %>%
+  map_df
+```
+
+
+
+
+```{r}
+matfile <- "galaxy.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+EastWest <- matList$EastWest
+NorthSouth <- matList$NorthSouth
+Velocity <- matList$Velocity
+
+savetoRda(EastWest, NorthSouth, Velocity, file = "galaxy.rda")
+
+```
+
+```{r}
+matList %>%
+  map_dbl(length)
+```
+
+```{r}
+name <- mf$name         # get the names from the Octave object
+setNames(matList, name) # assign names in name to objects in matList
 ```
 

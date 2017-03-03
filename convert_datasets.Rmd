@@ -3,3 +3,573 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+
+```{r}
+source(paste(project.R, "functions.R", sep = "/"))
+```
+
+## abrasion
+```{r}
+matfile <- "abrasion.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+abrasion <- matList$abrasion
+hardness <- matList$hardness
+tensile <- matList$hardness
+
+savetoRda(abrasion, hardness, tensile, file = "abrasion.rda")
+```
+
+## bank
+```{r}
+matfile <- "bank.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+forge <- matList$forge
+genuine <- matList$genuine
+
+savetoRda(forge, genuine, file = "bank.rda")
+```
+
+## calibrat
+```{r}
+matfile <- "calibrat.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+counts <- matList$counts
+tsh <- matList$tsh
+
+savetoRda(counts, tsh, file = "calibrat.rda")
+
+```
+
+## cereal
+```{r}
+matfile <- "cereal.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+cereal <- matList$cereal
+
+# deal with cell type
+labs <- unlist(matList$labs)
+
+savetoRda(cereal, labs, file = "cereal.rda")
+```
+
+## data
+```{r}
+matfile <- "data.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+X <- matList$X
+
+savetoRda(X, file = "data.mat")
+```
+
+## environmental
+```{r}
+matfile <- "environmental.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+Ozone <- matList$Ozone
+SolarRadiation <- matList$SolarRadiation
+Temperature <- matList$Temperature
+WindSpeed <- matList$WindSpeed
+comment <- matList$comment
+
+savetoRda(Ozone, SolarRadiation, Temperature, WindSpeed, comment,
+          file = "environmental.rda")
+```
+
+## ethanol
+```{r}
+matfile <- "ethanol.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+comment <- matList$comment
+Compression <- matList$Compression
+Equivalence <- matList$Equivalence
+NOx <- matList$NOx
+
+savetoRda(comment, Compression, Equivalence, NOx, file = "ethanol.rda")
+```
+
+
+## forearm
+```{r}
+matfile <- "forearm.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+# names(matList)
+forearm <- matList$forearm
+savetoRda(forearm, file = "forearm.rda")
+```
+
+## galaxy
+```{r}
+matfile <- "galaxy.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+EastWest <- matList$EastWest
+NorthSouth <- matList$NorthSouth
+Velocity <- matList$Velocity
+
+savetoRda(EastWest, NorthSouth, Velocity, file = "galaxy.rda")
+```
+
+## geyser
+```{r}
+matfile <- "geyser.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+geyser <- matList$geyser
+savetoRda(geyser, file = "geyser.rda")
+```
+
+
+
+## leukemia
+```{r}
+matfile <- "leukemia.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+btcell <- unlist(matList$btcell)         # unlist because object is a cell
+cancertype <- unlist(matList$cancertype) # unlist because object is a cell
+leukemia <- matList$leukemia
+
+# deal with 51x2 cell
+geneinfo <- unlist(matList$geneinfo)    # unlist because object is a cell
+geneinfo.dim <- getCell.dim(mf, "geneinfo") # get dimensions of cell
+
+geneinfo.col1 <- geneinfo[1:geneinfo.dim[1]]  # get 1st columns
+geneinfo.col2 <- geneinfo[(geneinfo.dim[1]+1):length(geneinfo)] # get 2nd col
+
+geneinfo.df <- data.frame(geneinfo.col1, geneinfo.col2) # create data frame
+names(geneinfo.df) <- as.matrix(geneinfo.df[1, ])       # extract variable names
+geneinfo.df <- geneinfo.df[-1, ]                        # remove row 1
+rownames(geneinfo.df) <- NULL                           # reset row numbers
+geneinfo <- geneinfo.df
+
+
+savetoRda(btcell, cancertype, leukemia, geneinfo, file = "leukemia.rda")
+
+```
+
+
+## livestock
+```{r}
+matfile <- "livestock.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+comment       <- matList$comment
+Count         <- matList$Count
+Country       <- matList$Country
+CountryName   <- unlist(matList$CountryName)
+LivestockName <- unlist(matList$LivestockName)
+LivestockType <- matList$LivestockType
+
+savetoRda(comment,  
+          Count,        
+          Country,
+          CountryName,
+          LivestockName, 
+          LivestockType,
+          file = "livestock.rda"
+)
+```
+
+## lsiex
+```{r}
+matfile <- "lsiex.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+docs    <- unlist(matList$docs)
+termdoc <- matList$termdoc
+words   <- matList$words
+X       <- matList$X
+
+savetoRda(docs,
+          termdoc,
+          words,  
+          X,
+          file = "lsiex.rda")
+```
+
+## lungA
+```{r}
+matfile <- "lungA.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+labA <- unlist(matList$labA)
+lungA <- matList$lungA
+
+savetoRda(labA, lungA, file = "lungA.rda")
+```
+
+## lungB
+
+```{r}
+matfile <- "lungB.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+labB <- unlist(matList$labB)
+lungB <- matList$lungB
+
+savetoRda(labB, lungB, file = "lungB.rda")
+```
+
+## matchbpm
+```{r}
+matfile <- "matchbpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+classlab <- matList$classlab
+matchbpm <- matList$matchbpm
+
+savetoRda(classlab, matchbpm, file = "matchbpm.rda")
+```
+
+## ochiaibpm
+```{r}
+matfile <- "ochiaibpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+classlab <- matList$classlab
+ochiaibpm <- matList$ochiaibpm
+
+savetoRda(classlab, ochiaibpm, file = "ochiaibpm.rda")
+```
+
+## oronsay
+```{r}
+matfile <- "oronsay.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+beachdune <- matList$beachdune
+labcol <- unlist(matList$labcol)
+midden <- matList$midden
+oronsay <- matList$oronsay
+
+savetoRda(beachdune,
+          labcol,
+          midden,
+          oronsay,
+          file = "oronsay.rda")
+
+```
+
+## ozone
+```{r}
+matfile <- "ozone.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+comment <- matList$comment
+Stamford <- matList$Stamford
+Yonkers <- matList$Yonkers
+
+savetoRda(comment, Stamford, Yonkers, file = "ozone.rda")
+```
+
+## playfair
+```{r}
+matfile <- "playfair.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
+
+
+## pollen
+```{r}
+matfile <- "pollen.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
+
+## posse
+```{r}
+matfile <- "posse.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
+
+## salmon
+```{r}
+matfile <- "salmon.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+
+```
+
+## scurve
+```{r}
+matfile <- "scurve.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## singer
+```{r}
+matfile <- "singer.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## skulls
+```{r}
+matfile <- "skulls.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## software
+```{r}
+matfile <- "software.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## spam
+```{r}
+matfile <- "spam.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## sparrow
+```{r}
+matfile <- "spam.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## stockreturns
+```{r}
+matfile <- "stockreturns.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## swissroll
+```{r}
+matfile <- "swissroll.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## votfraud
+```{r}
+matfile <- "votfraud.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## yeast
+```{r}
+matfile <- "yeast.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## hamster
+```{r}
+matfile <- "hamster.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## iradbpm
+```{r}
+matfile <- "iradbpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## iris
+```{r}
+matfile <- "iris.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## L1bpm
+```{r}
+matfile <- "L1bpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+
+## sparrow
+```{r}
+matfile <- "sparrow.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+# saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
+```
+

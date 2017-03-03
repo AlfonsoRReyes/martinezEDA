@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Convert Datasets"
 output: html_notebook
 ---
 
@@ -571,5 +571,30 @@ mf
 matList <- readMatfile(matfile)
 # saveMatlabVars(matfile, mf, matList)
 saveMatlabVars()
+```
+
+```{r}
+# provide the Matlab file name
+# stop if Matlab file does not exist
+# get info from the Matlab file using RcppOctave
+
+
+# read the Matlab file from R
+# load the Matlab file results to a list
+
+# iterate through objects in data frame returned from RcppOctave
+  # convert object name item to character
+  # get the class and dimension for current object
+  # if class is `cell` 
+  #   stop if any of the dimension of cell is greater than 1
+  #   unlist the object before assigning to a var
+  #   otherwise assign the object to a var with `assign`
+  # collect the variable names to save later
+
+# save the objects as .rda file
+
+# create data frame of new objects in R
+# show data frame of objects in Matlab and R
+
 ```
 

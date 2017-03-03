@@ -8,6 +8,57 @@ output: html_notebook
 source(paste(project.R, "functions.R", sep = "/"))
 ```
 
+## abrasion
+```{r}
+matfile <- "abrasion.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+abrasion <- matList$abrasion
+hardness <- matList$hardness
+tensile <- matList$hardness
+
+savetoRda(abrasion, hardness, tensile, file = "abrasion.rda")
+```
+
+## bank
+```{r}
+matfile <- "bank.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+forge <- matList$forge
+genuine <- matList$genuine
+
+savetoRda(forge, genuine, file = "bank.rda")
+```
+
+## calibrat
+```{r}
+matfile <- "calibrat.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+counts <- matList$counts
+tsh <- matList$tsh
+
+savetoRda(counts, tsh, file = "calibrat.rda")
+
+```
+
+
 ## forearm
 ```{r}
 matfile <- "forearm.mat"
@@ -88,29 +139,4 @@ savetoRda(btcell, cancertype, leukemia, geneinfo, file = "leukemia.rda")
 ```
 
 
-
-```{r}
-library(dplyr)
-
-geneinfo.size <- mf %>%
-  filter(name == 'geneinfo') %>%
-  select(size)
-  
-
-```
-
-
-```{r}
-# using pipe
-geneinfo.size[1,1] %>%
-  as.character() %>%
-  strsplit("x") %>%
-  unlist() %>%
-  head(1) %>%
-  as.integer()
-```
-
-```{r}
-mf
-```
 

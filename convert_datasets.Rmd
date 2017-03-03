@@ -82,6 +82,9 @@ geneinfo.df <- geneinfo.df[-1, ]                        # remove row 1
 rownames(geneinfo.df) <- NULL                           # reset row numbers
 geneinfo <- geneinfo.df
 
+
+savetoRda(btcell, cancertype, leukemia, geneinfo, file = "leukemia.rda")
+
 ```
 
 

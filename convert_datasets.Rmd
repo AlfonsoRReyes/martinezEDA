@@ -3,3 +3,111 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+
+```{r}
+source(paste(project.R, "functions.R", sep = "/"))
+```
+
+## forearm
+```{r}
+matfile <- "forearm.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+# names(matList)
+forearm <- matList$forearm
+savetoRda(forearm, file = "forearm.rda")
+```
+
+## galaxy
+```{r}
+matfile <- "galaxy.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+EastWest <- matList$EastWest
+NorthSouth <- matList$NorthSouth
+Velocity <- matList$Velocity
+
+savetoRda(EastWest, NorthSouth, Velocity, file = "galaxy.rda")
+```
+
+## geyser
+```{r}
+matfile <- "geyser.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+geyser <- matList$geyser
+savetoRda(geyser, file = "geyser.rda")
+```
+
+
+
+## leukemia
+```{r}
+matfile <- "leukemia.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+btcell <- unlist(matList$btcell)         # unlist because object is a cell
+cancertype <- unlist(matList$cancertype) # unlist because object is a cell
+leukemia <- matList$leukemia
+
+# deal with 51x2 cell
+geneinfo <- unlist(matList$geneinfo)    # unlist because object is a cell
+# geneinfo.col1 <- geneinfo[1:mf$size]geneinfo.size 
+
+```
+
+```{r}
+getCell.dim <- function(df, cellName) {
+  size <- as.character(df[df$name == cellName,][1, 'size'])
+  as.integer(unlist(strsplit(size, "x")))
+}
+
+getCell.dim(mf, "geneinfo")
+```
+
+
+```{r}
+library(dplyr)
+
+geneinfo.size <- mf %>%
+  filter(name == 'geneinfo') %>%
+  select(size)
+  
+
+```
+
+```{r}
+  
+#geneinfo.size[1,1]
+strsplit(as.character(geneinfo.size[1,1]), "x")
+```
+
+```{r}
+# using pipe
+geneinfo.size[1,1] %>%
+  as.character() %>%
+  strsplit("x") %>%
+  unlist() %>%
+  head(1) %>%
+  as.integer()
+```
+

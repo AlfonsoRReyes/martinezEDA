@@ -71,19 +71,19 @@ leukemia <- matList$leukemia
 
 # deal with 51x2 cell
 geneinfo <- unlist(matList$geneinfo)    # unlist because object is a cell
-# geneinfo.col1 <- geneinfo[1:mf$size]geneinfo.size 
+geneinfo.dim <- getCell.dim(mf, "geneinfo") # get dimensions of cell
+
+geneinfo.col1 <- geneinfo[1:geneinfo.dim[1]]  # get 1st columns
+geneinfo.col2 <- geneinfo[(geneinfo.dim[1]+1):length(geneinfo)] # get 2nd col
+
+geneinfo.df <- data.frame(geneinfo.col1, geneinfo.col2) # create data frame
+names(geneinfo.df) <- as.matrix(geneinfo.df[1, ])       # extract variable names
+geneinfo.df <- geneinfo.df[-1, ]                        # remove row 1
+rownames(geneinfo.df) <- NULL                           # reset row numbers
+geneinfo <- geneinfo.df
 
 ```
 
-```{r}
-getCell.dim <- function(df, cellName) {
-  size <- as.character(df[df$name == cellName,][1, 'size'])
-  dim <- as.integer(unlist(strsplit(size, "x")))
-  return(dim)
-}
-
-getCell.dim(mf, "geneinfo")
-```
 
 
 ```{r}
@@ -96,11 +96,6 @@ geneinfo.size <- mf %>%
 
 ```
 
-```{r}
-  
-#geneinfo.size[1,1]
-strsplit(as.character(geneinfo.size[1,1]), "x")
-```
 
 ```{r}
 # using pipe

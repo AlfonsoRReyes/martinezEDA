@@ -1,0 +1,226 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(RcppOctave)
+.CallOctave("version")
+```
+
+```{r}
+loader <- OctaveFunction("
+function [DF] = readMatfile()
+  clear
+  load('leukemia.mat')
+  DF = whos();
+end")
+```
+
+
+```{r}
+ld <- loader()
+names(ld)
+```
+
+```{r}
+ld$name
+ld$size
+ld$bytes
+ld$class
+```
+
+```{r}
+df <- data.frame(ld$name, ld$bytes, ld$class)
+```
+
+```{r}
+size <- ld$size
+sapply(size, `[[`, 1)
+sapply(size, `[[`, 2)
+```
+
+```{r}
+paste(sapply(size, `[[`, 1), sapply(size, `[[`, 2), sep = "x")
+```
+
+
+```{r}
+# convert to data frame
+sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+df
+```
+
+```{r}
+library(RcppOctave)
+
+o.loader <- OctaveFunction("
+function [struct] = readMatfile(mfile)
+  load(mfile)
+  clear mfile;
+  struct = whos();
+end
+")
+
+matInfo <- function(matFile) {
+  ld <- o.loader(matFile)
+  sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+  df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+  return(df)
+}
+
+```
+
+
+```{r}
+matfilepath <- paste(project.extdata, "forearm.mat", sep = "/")
+# old <- o.loader(matfilepath)
+ld <- o.loader(matfilepath)
+#sapply(ld$size, `[[`, 1)
+#sapply(ld$size, `[[`, 2)
+# typeof(ld$size)
+#ld$size
+#length(ld$size)
+if (typeof(ld$size) == 'list') {
+  sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
+} else {
+  sz <- paste(sapply(ld$size, `[[`, 1), collapse = "x")
+}
+sz    # numeric
+
+df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+```
+
+```{r}
+matfilepath <- paste(project.extdata, "leukemia.mat", sep = "/")
+# old <- o.loader(matfilepath)
+ld <- o.loader(matfilepath)
+#sapply(ld$size, `[[`, 1)
+#sapply(ld$size, `[[`, 2)
+typeof(ld$size)       # if there is more than one element
+ld$size
+length(ld$size)
+```
+
+
+
+
+```{r}
+mat <- paste(project.extdata, "geyser.mat", sep = "/")
+# l2 <- ldr(mat)
+matInfo(mat)
+```
+
+```{r}
+source(paste(project.R, "functions.R", sep = "/"))
+
+
+```
+
+
+```{r}
+matfile <- "ethanol.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+names(matList)
+
+mf$name[1]   # Compression
+Compression <- matList[[mf$name[1]]]
+
+mf$name[2]   # Equivalence
+Equivalence <- matList[[mf$name[2]]]
+
+NOx <- matList[[mf$name[3]]]
+
+comment <- matList[[mf$name[4]]]
+```
+
+```{r}
+matfile <- "galaxy.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+names(matList)
+```
+
+```{r}
+matfile <- "geyser.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+geyser <- matList$geyser
+savetoRda(geyser, file = "geyser.rda")
+```
+
+
+
+
+```{r}
+matfile <- "forearm.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+# names(matList)
+forearm <- matList$forearm
+savetoRda(forearm, file = "forearm.rda")
+```
+
+
+```{r}
+matfile <- "leukemia.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+geneinfo <- matList %>%
+  map_df
+```
+
+
+
+
+```{r}
+matfile <- "galaxy.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+EastWest <- matList$EastWest
+NorthSouth <- matList$NorthSouth
+Velocity <- matList$Velocity
+
+savetoRda(EastWest, NorthSouth, Velocity, file = "galaxy.rda")
+
+```
+
+```{r}
+matList %>%
+  map_dbl(length)
+```
+
+```{r}
+name <- mf$name         # get the names from the Octave object
+setNames(matList, name) # assign names in name to objects in matList
+```
+

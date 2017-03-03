@@ -7,8 +7,12 @@ output: html_notebook
 convertMat2Rda <- function(mat_files) {
   for (i in mat_files) {
     print(i)
-    alist <- readMatfile(i)
+    alist <- readMatfile(i, verbose = FALSE)
     ulist <- unlist(alist)
+    # print(names(alist))
+    # str(ulist)
+    cat(typeof(ulist), "\n")
+    cat(length(ulist))
   }
 }
 ```
@@ -19,3 +23,120 @@ v <- c("cereal.mat", "data.mat", "environmental.mat")
 convertMat2Rda(v)
 ```
 
+```{r}
+library(purrr)
+
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+lk <- alist %>%
+  map("leukemia")
+lk
+```
+
+
+
+```{r}
+l <- list(list(col1="a",col2=1),list(col1="b",col2=2))
+f = function(x) function(i) unlist(lapply(x, `[[`, i), use.names=FALSE)
+as.data.frame(Map(f(l), names(l[[1]])))
+```
+
+```{r}
+f = function(x) 
+  function(i) 
+    unlist(lapply(x, `[[`, i), use.names=FALSE)
+
+  
+mat <- "example32.mat"
+mat <- "data.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+# str(alist)
+
+#as.data.frame(Map(f(alist), names(alist[[1]])))
+# Map(f(alist), names(alist[[1]]))
+
+# lapply(alist, `[[`, )
+
+```
+
+```{r}
+library(plyr)
+
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+names(alist)
+```
+
+```{r}
+# get the names of the list
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+nm <- names(alist)
+nm
+```
+
+
+
+```{r}
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+# lapply(alist, names)
+to <- lapply(alist, typeof)  # to is a list
+```
+
+```{r}
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+# return all values
+lapply(alist, function(x) lapply(x, identity))
+```
+
+```{r}
+
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+myList <- alist
+
+# As a list of one-column data.frames
+lapply(myList, `[`, 1)
+
+# # As a list of vectors
+# lapply(myList, `[[`, 1)
+# 
+# # As a named vector
+# sapply(myList, `[[`, 1)
+# 
+# # As an unnamed vector
+# unname(sapply(myList, `[[`, 1))
+```
+
+
+
+
+```{r}
+# An example nested list
+myNestedList <- list(A = list(`0` = c(`1` = 10, `2` = 20, `3` = 30, `4` = 72),
+                              `1` = c(`1` = 15, `2` = 9, `3` = 7)),
+                     B = list(`0` = c(A = 11, B = 12, C = 13),
+                              `1` = c(X = 14, Y = 15, Z = 16)))
+
+# Run the following and see what you come up with....
+lapply(unlist(myNestedList, recursive = FALSE), `[`, 1)
+lapply(unlist(myNestedList, recursive = FALSE), `[[`, 1)
+sapply(unlist(myNestedList, recursive = FALSE), `[[`, 1)
+rapply(myNestedList, f=`[[`, ...=1, how="unlist")
+```
+
+```{r}
+mat <- "data.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+myNestedList <- alist
+
+# Run the following and see what you come up with....
+lapply(unlist(myNestedList, recursive = FALSE), `[`, 1)
+lapply(unlist(myNestedList, recursive = FALSE), `[[`, 1)
+sapply(unlist(myNestedList, recursive = FALSE), `[[`, 1)
+rapply(myNestedList, f=`[[`, ...=1, how="unlist")
+```

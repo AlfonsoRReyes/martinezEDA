@@ -1,0 +1,51 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(rlist)
+library(pipeR)
+
+url <- "http://renkun.me/rlist-tutorial/data/people.json"
+people <- list.load(url)
+people %>>%
+  list.filter(Expertise$R >= 1 & Expertise$Python >= 1) %>>%
+  list.class(Interests) %>>%
+  list.sort(-length(.)) %>>%
+  list.take(3) %>>%
+  list.map(. %>>% list.table(Age))
+```
+
+```{r}
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+alist %>>%
+  list.take(1)    # show first member of the list
+```
+
+
+```{r}
+
+```
+
+
+
+```{r}
+library(rlist)
+
+mat <- "example32.mat"
+alist <- readMatfile(mat, verbose = FALSE)
+
+str(alist)
+```
+
+```{r}
+list.map(alist, .name)
+```
+
+```{r}
+list.select(alist, "btcell")
+```
+

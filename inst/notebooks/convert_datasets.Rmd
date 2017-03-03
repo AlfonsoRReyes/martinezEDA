@@ -558,7 +558,7 @@ mf
 
 matList <- readMatfile(matfile)
 # saveMatlabVars(matfile, mf, matList)
-saveMatlabVars()
+# saveMatlabVars()
 ```
 
 ## sparrow
@@ -572,6 +572,71 @@ matList <- readMatfile(matfile)
 # saveMatlabVars(matfile, mf, matList)
 saveMatlabVars()
 ```
+
+```{r}
+  rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
+  toSave <- NULL
+
+  for (item in mf$name) {
+    item <- as.character(item)   # convert to character
+    # cat(item)
+    kls <- as.character(mf[mf$name == item, "class"]) # get object class
+    size <- as.character(mf[mf$name == item,][1, 'size'])
+    dim <- as.integer(unlist(strsplit(size, "x")))
+    # cat(" ", kls, dim)
+    if (kls == "cell") {
+      if (dim[2] & dim[1] > 1) stop("more than one column ...")
+      # cat("cell")
+      assign(item, unlist(matList[[item]]) )  # unlist if object is a cell
+    } else {
+      assign(item, matList[[item]])
+    }
+    # cat("\n")
+    toSave <- c(toSave, item)
+    
+  }
+  # toSave
+  savetoRda(list = toSave, file = rdaFile)
+```
+
+
+```{r}
+getObject.info <- function(item) {
+  obj <- get(item)
+  stir <- capture.output(str(obj))[1]
+  dims <- paste(dim(obj), collapse = "x")
+  len <- length(obj)
+  kls <- class(obj)
+  to <- typeof(obj)
+  list(varname = item, dims = dims, length = len, class = kls, typeof = to)
+}
+
+#data.frame(getObject.info(item))
+df <- data.frame()
+for (item in toSave) {
+  #print(item)
+  row <- data.frame(getObject.info(item))
+  df <- rbind(row, df)
+}
+df
+
+```
+
+
+
+
+```{r}
+#item
+obj <- get(item)
+capture.output(str(obj))[1]
+paste(dim(obj), collapse = "x")
+length(obj)
+class(obj)
+typeof(obj)
+```
+
+
+
 
 ```{r}
 # provide the Matlab file name
@@ -597,4 +662,12 @@ saveMatlabVars()
 # show data frame of objects in Matlab and R
 
 ```
+
+
+```{r}
+myobj <- structure(list(a = 1, b = 2), class = "myclass")
+print.myclass <- function(x, ...) cat("A: ", x$a, " B: ", x$b, "\n", sep = "")
+myobj
+```
+
 

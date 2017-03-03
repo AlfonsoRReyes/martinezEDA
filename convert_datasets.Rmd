@@ -58,6 +58,67 @@ savetoRda(counts, tsh, file = "calibrat.rda")
 
 ```
 
+## cereal
+```{r}
+matfile <- "cereal.mat"
+
+matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfilepath)
+mf
+
+matList <- readMatfile(matfile)
+
+cereal <- matList$cereal
+
+# deal with cell type
+labs <- unlist(matList$labs)
+
+savetoRda(cereal, labs, file = "cereal.rda")
+```
+
+## data
+```{r}
+matfile <- "data.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+X <- matList$X
+
+savetoRda(X, file = "data.mat")
+```
+
+## environmental
+```{r}
+matfile <- "environmental.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+Ozone <- matList$Ozone
+SolarRadiation <- matList$SolarRadiation
+Temperature <- matList$Temperature
+WindSpeed <- matList$WindSpeed
+comment <- matList$comment
+
+savetoRda(Ozone, SolarRadiation, Temperature, WindSpeed, comment,
+          file = "environmental.rda")
+```
+
+## ethanol
+```{r}
+matfile <- "ethanol.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+```
+
 
 ## forearm
 ```{r}

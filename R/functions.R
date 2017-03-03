@@ -25,8 +25,9 @@ end
 
 #' get information of .mat file objects
 #' as a data frame
-matInfo <- function(matFile) {
-  ld <- o.loader(matFile)
+matInfo <- function(matfile) {
+  matfilepath <- paste(project.extdata, matfile, sep = "/")
+  ld <- o.loader(matfilepath)
   if (typeof(ld$size) == 'list') {
     sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
   } else {

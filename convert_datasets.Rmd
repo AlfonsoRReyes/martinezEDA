@@ -269,7 +269,167 @@ lungA <- matList$lungA
 savetoRda(labA, lungA, file = "lungA.rda")
 ```
 
+## lungB
+
+```{r}
+matfile <- "lungB.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+labB <- unlist(matList$labB)
+lungB <- matList$lungB
+
+savetoRda(labB, lungB, file = "lungB.rda")
+```
+
+## matchbpm
+```{r}
+matfile <- "matchbpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+classlab <- matList$classlab
+matchbpm <- matList$matchbpm
+
+savetoRda(classlab, matchbpm, file = "matchbpm.rda")
+```
+
+## ochiaibpm
+```{r}
+matfile <- "ochiaibpm.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+classlab <- matList$classlab
+ochiaibpm <- matList$ochiaibpm
+
+savetoRda(classlab, ochiaibpm, file = "ochiaibpm.rda")
+```
+
+## oronsay
+```{r}
+matfile <- "oronsay.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+beachdune <- matList$beachdune
+labcol <- unlist(matList$labcol)
+midden <- matList$midden
+oronsay <- matList$oronsay
+
+savetoRda(beachdune,
+          labcol,
+          midden,
+          oronsay,
+          file = "oronsay.rda")
+
+```
+
+## ozone
+```{r}
+matfile <- "ozone.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+
+comment <- matList$comment
+Stamford <- matList$Stamford
+Yonkers <- matList$Yonkers
+
+savetoRda(comment, Stamford, Yonkers, file = "ozone.rda")
+```
+
+## playfair
+```{r}
+matfile <- "playfair.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
 
 
+## pollen
+```{r}
+matfile <- "pollen.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
+
+## posse
+```{r}
+matfile <- "posse.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+```
+
+## salmon
+```{r}
+matfile <- "salmon.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars()
+
+```
+
+## scurve
+```{r}
+matfile <- "scurve.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## singer
+```{r}
+matfile <- "singer.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
+
+## skulls
+```{r}
+matfile <- "skulls.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+saveMatlabVars(matfile, mf, matList)
+```
 
 

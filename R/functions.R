@@ -48,3 +48,30 @@ getCell.dim <- function(df, cellName) {
   dim <- as.integer(unlist(strsplit(size, "x")))
   return(dim)
 }
+
+
+saveMatlabVars <- function(matfile, mf, matList) {
+  e <- new.env()
+  rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
+  toSave <- NULL
+
+  for (item in mf$name) {
+    item <- as.character(item)   # convert to character
+    # cat(item)
+    kls <- as.character(mf[mf$name == item, "class"]) # get object class
+    size <- as.character(mf[mf$name == item,][1, 'size'])
+    dim <- as.integer(unlist(strsplit(size, "x")))
+    # cat(" ", kls, dim)
+    if (kls == "cell") {
+      if (dim[2] > 1) stop("more than one column ...")
+      # cat("cell")
+      assign(item, unlist(matList[[item]]) )  # unlist if object is a cell
+    } else {
+      assign(item, matList[[item]])
+    }
+    # cat("\n")
+    toSave <- c(toSave, item)
+  }
+  # toSave
+  savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
+}

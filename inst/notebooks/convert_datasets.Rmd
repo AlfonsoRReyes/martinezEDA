@@ -576,6 +576,60 @@ matList <- readMatfile(matfile)
 ```
 
 
+## new function
+```{r}
+process.matlab.object <- function(item) {
+  kls <- as.character(mf[mf$name == item, "class"]) # get object class
+  size <- as.character(mf[mf$name == item,][1, 'size'])
+  dim <- as.integer(unlist(strsplit(size, "x")))
+  
+  if (kls == "cell") {
+    if (dim[2] & dim[1] > 1) stop("more than one column ...")
+    klass <- "cell"
+    assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell
+  } else if (kls == "char") {
+      assign(item, as.character(unlist(matList[[item]])))
+      klass <- "char"
+  } else if (kls == "double") {
+      klass <- "double"
+      assign(item, matList[[item]])
+  } else {
+      klass <- "else"
+      assign(item, matList[[item]])
+      
+  }
+    # get the object from the string
+  obj <- get(item)
+  dims <- ifelse(kls == "char", "NULL", paste(dim(obj), collapse = "x"))
+  # len <- length(obj)
+  len <- ifelse(kls == "char", nchar(obj), length(obj))
+  kls <- class(obj)
+  to <- typeof(obj)
+  
+  aList <- list(Rname = item, dims = dims, length = len, Rclass = kls, 
+                typeof = to)
+  return(aList)
+}
+  
+# main
+rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
+toSave <- NULL
+rdf <- data.frame()
+
+for (item in mf$name) {
+  # cat(item, class(item), "\n")
+  cat(item, "\t")
+  #print(process.matlab.object(item)$Rname)
+  row <- process.matlab.object(item)
+  cat(row$Rclass, row$typeof)
+  row.df <- data.frame(row, stringsAsFactors = FALSE)
+  rdf <- rbind(row.df, rdf)
+  cat("\n")
+}   
+rdf <- rdf[order(rdf[, 1]), ]
+rdf
+
+```
 
 
 
@@ -583,8 +637,7 @@ matList <- readMatfile(matfile)
 
 
 
-
-
+## old function
 ```{r}
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
   toSave <- NULL

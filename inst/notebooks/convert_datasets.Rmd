@@ -592,9 +592,16 @@ process.matlab.object <- function(item) {
   dim <- as.integer(unlist(strsplit(size, "x")))
   
   if (kls == "cell") {
-    #if (dim[2] & dim[1] > 1) stop("more than one column ...")
     klass <- "cell"
-    assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell
+    assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell    
+    
+    if ( (dim[2] >=2) & (dim[1] >= 2) ) {
+      # stop("more than one column ...")
+      cols <- min(dim[2], dim[1])
+      cat("\tcell cols:", cols, "\t")
+      
+    }
+
   } else if (kls == "char") {
       assign(item, as.character(unlist(matList[[item]])))
       klass <- "char"
@@ -646,8 +653,6 @@ rownames(rdf) <- 1:nrow(rdf)
 rdf
 toSave
 savetoRda(list = toSave, file = rdaFile)
-#saveMatlabVars()
-#rdaFile
 ```
 
 

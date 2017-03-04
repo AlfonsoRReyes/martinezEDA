@@ -34,7 +34,11 @@ matInfo <- function(matfile) {
     sz <- paste(sapply(ld$size, `[[`, 1), collapse = "x")
   }
   # sz <- paste(sapply(ld$size, `[[`, 1), sapply(ld$size, `[[`, 2), sep = "x")
-  df <- data.frame(name = ld$name, size = sz, bytes = ld$bytes, class = ld$class)
+  df <- data.frame(name = ld$name,
+                   size = sz,
+                   bytes = ld$bytes,
+                   class = ld$class,
+                   stringsAsFactors = FALSE)
   df <- df[order(df[, 1]), ]
   rownames(df) <- NULL
   return(df)

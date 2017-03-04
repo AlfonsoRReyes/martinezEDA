@@ -578,13 +578,20 @@ matList <- readMatfile(matfile)
 
 
 
+
+
+
+
+
+
+
 ```{r}
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
   toSave <- NULL
   rdf <- data.frame()
 
   for (item in mf$name) {
-    item <- as.character(item)   # convert to character
+    # item <- as.character(item)   # convert to character
     cat(item)
     kls <- as.character(mf[mf$name == item, "class"]) # get object class
     size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -592,9 +599,14 @@ matList <- readMatfile(matfile)
     cat(" ", kls, dim)
     
     if (kls == "cell") {
+      # a Matlab cell is equivalent to a R matrix
+      # print("Matlab cell")
       if (dim[2] & dim[1] > 1) stop("more than one column ...")
-      # cat("cell")
-      assign(item, unlist(matList[[item]]) )  # unlist if object is a cell
+      assign(item, as.matrix(unlist(matList[[item]])))  # unlist if object is a cell
+    } else if (kls == "char") {
+      print("char vector")
+      assign(item, as.character(unlist(matList[[item]]))[1])
+      
     } else {
       assign(item, matList[[item]])
     }

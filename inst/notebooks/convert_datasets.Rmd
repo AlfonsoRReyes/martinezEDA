@@ -585,6 +585,7 @@ saveMatlabVars()
     size <- as.character(mf[mf$name == item,][1, 'size'])
     dim <- as.integer(unlist(strsplit(size, "x")))
     cat(" ", kls, dim)
+    
     if (kls == "cell") {
       if (dim[2] & dim[1] > 1) stop("more than one column ...")
       # cat("cell")
@@ -593,8 +594,8 @@ saveMatlabVars()
       assign(item, matList[[item]])
     }
     
-    toSave <- c(toSave, item)
     cat(class(get(item)))   # get the class before passing to function
+    toSave <- c(toSave, item)
     row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
     rdf <- rbind(row, rdf)
     cat("\n")

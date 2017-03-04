@@ -601,7 +601,6 @@ process.matlab.object <- function(item) {
     # get the object from the string
   obj <- get(item)
   dims <- ifelse(kls == "char", "NULL", paste(dim(obj), collapse = "x"))
-  # len <- length(obj)
   len <- ifelse(kls == "char", nchar(obj), length(obj))
   kls <- class(obj)
   to <- typeof(obj)
@@ -627,6 +626,7 @@ for (item in mf$name) {
   cat("\n")
 }   
 rdf <- rdf[order(rdf[, 1]), ]
+rownames(rdf) <- 1:nrow(rdf)
 rdf
 
 ```

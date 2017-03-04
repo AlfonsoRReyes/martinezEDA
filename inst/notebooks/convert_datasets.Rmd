@@ -83,7 +83,7 @@ matList <- readMatfile(matfile)
 
 X <- matList$X
 
-savetoRda(X, file = "data.mat")
+# savetoRda(X, file = "data.mat")
 ```
 
 ## environmental
@@ -455,7 +455,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+# saveMatlabVars(matfile, mf, matList)
 ```
 
 ## stockreturns
@@ -563,8 +563,20 @@ mf
 
 matList <- readMatfile(matfile)
 # saveMatlabVars(matfile, mf, matList)
-saveMatlabVars()
+# saveMatlabVars()
 ```
+
+```{r}
+matfile <- "livestock.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+```
+
+
+
 
 ```{r}
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")

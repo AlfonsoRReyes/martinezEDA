@@ -12,8 +12,7 @@ source(paste(project.R, "functions.R", sep = "/"))
 ```{r}
 matfile <- "abrasion.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -29,8 +28,7 @@ savetoRda(abrasion, hardness, tensile, file = "abrasion.rda")
 ```{r}
 matfile <- "bank.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -45,8 +43,7 @@ savetoRda(forge, genuine, file = "bank.rda")
 ```{r}
 matfile <- "calibrat.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -62,8 +59,7 @@ savetoRda(counts, tsh, file = "calibrat.rda")
 ```{r}
 matfile <- "cereal.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -131,8 +127,7 @@ savetoRda(comment, Compression, Equivalence, NOx, file = "ethanol.rda")
 ```{r}
 matfile <- "forearm.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -145,8 +140,8 @@ savetoRda(forearm, file = "forearm.rda")
 ```{r}
 matfile <- "galaxy.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+# matfilepath <- paste(project.extdata, matfile, sep = "/")
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -162,8 +157,7 @@ savetoRda(EastWest, NorthSouth, Velocity, file = "galaxy.rda")
 ```{r}
 matfile <- "geyser.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -178,8 +172,7 @@ savetoRda(geyser, file = "geyser.rda")
 ```{r}
 matfile <- "leukemia.mat"
 
-matfilepath <- paste(project.extdata, matfile, sep = "/")
-mf <- matInfo(matfilepath)
+mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
@@ -361,7 +354,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars()
+#saveMatlabVars()
 ```
 
 
@@ -407,7 +400,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
 ```
 
 ## singer
@@ -418,7 +411,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+saveMatlabVars()
 ```
 
 ## skulls
@@ -429,7 +422,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+# saveMatlabVars(matfile, mf, matList)
 ```
 
 ## software
@@ -440,7 +433,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+# saveMatlabVars(matfile, mf, matList)
 ```
 
 ## spam
@@ -451,7 +444,7 @@ mf <- matInfo(matfile)
 mf
 
 matList <- readMatfile(matfile)
-saveMatlabVars(matfile, mf, matList)
+# saveMatlabVars(matfile, mf, matList)
 ```
 
 ## sparrow

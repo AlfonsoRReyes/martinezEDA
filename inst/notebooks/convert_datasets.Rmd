@@ -575,6 +575,14 @@ mf
 matList <- readMatfile(matfile)
 ```
 
+```{r}
+matfile <- "leukemia.mat"
+
+mf <- matInfo(matfile)
+mf
+
+matList <- readMatfile(matfile)
+```
 
 ## new function
 ```{r}
@@ -584,7 +592,7 @@ process.matlab.object <- function(item) {
   dim <- as.integer(unlist(strsplit(size, "x")))
   
   if (kls == "cell") {
-    if (dim[2] & dim[1] > 1) stop("more than one column ...")
+    #if (dim[2] & dim[1] > 1) stop("more than one column ...")
     klass <- "cell"
     assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell
   } else if (kls == "char") {
@@ -604,12 +612,15 @@ process.matlab.object <- function(item) {
   len <- ifelse(kls == "char", nchar(obj), length(obj))
   kls <- class(obj)
   to <- typeof(obj)
+  stir <- capture.output(str(obj))[1]
   
-  aList <- list(Rname = item, dims = dims, length = len, Rclass = kls, 
-                typeof = to)
-  return(aList)
+  item.props <- list(Rname = item, dims = dims, length = len, Rclass = kls, 
+                typeof = to, value = stir)
+  item.whole <- list(values = obj, name = item, properties = item.props)
+  return(item.whole)
 }
-  
+
+
 # main
 rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
 toSave <- NULL
@@ -619,16 +630,24 @@ for (item in mf$name) {
   # cat(item, class(item), "\n")
   cat(item, "\t")
   #print(process.matlab.object(item)$Rname)
-  row <- process.matlab.object(item)
+  
+  # row <- process.matlab.object(item)
+  whole <- process.matlab.object(item)
+  assign(whole$name, whole$values)
+  row <- whole$properties
   cat(row$Rclass, row$typeof)
   row.df <- data.frame(row, stringsAsFactors = FALSE)
   rdf <- rbind(row.df, rdf)
   cat("\n")
+  toSave <- c(toSave, whole$name)
 }   
 rdf <- rdf[order(rdf[, 1]), ]
 rownames(rdf) <- 1:nrow(rdf)
 rdf
-
+toSave
+savetoRda(list = toSave, file = rdaFile)
+#saveMatlabVars()
+#rdaFile
 ```
 
 

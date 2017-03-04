@@ -594,12 +594,13 @@ saveMatlabVars()
     }
     
     toSave <- c(toSave, item)
-    cat(class(get(item)))
+    cat(class(get(item)))   # get the class before passing to function
     row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
     rdf <- rbind(row, rdf)
     cat("\n")
     
   }
+  rdf <- rdf[order(rdf[, 1]), ]
   # toSave
   savetoRda(list = toSave, file = rdaFile)
   rdf

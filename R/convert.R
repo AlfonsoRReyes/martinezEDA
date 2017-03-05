@@ -128,37 +128,6 @@ process.matlab.object <- function(mf, matList) {
   return(rBlock)
 }
 
-# geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
-# res <- split.matrix(geneinfo.tmp, 2)
-# dim(res)
-# class(res)
-
-
-# main
-# rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
-# toSave <- NULL
-# rdf <- data.frame()
-#
-# for (item in mf$name) {
-#   # cat(item, class(item), "\n")
-#   cat(item, "\t")
-#   #print(process.matlab.object(item)$Rname)
-#
-#   # row <- process.matlab.object(item)
-#   whole <- process.matlab.object(item)
-#   assign(whole$name, whole$values)
-#   row <- whole$properties
-#   cat(row$Rclass, row$typeof)
-#   row.df <- data.frame(row, stringsAsFactors = FALSE)
-#   rdf <- rbind(row.df, rdf)
-#   cat("\n")
-#   toSave <- c(toSave, whole$name)
-# }
-# rdf <- rdf[order(rdf[, 1]), ]
-# rownames(rdf) <- 1:nrow(rdf)
-# print(rdf)
-# savetoRda(list = toSave, file = rdaFile)
-
 
 mat2rda <- function(matfile) {
   # create new environment
@@ -190,7 +159,6 @@ mat2rda <- function(matfile) {
   rownames(rdf) <- 1:nrow(rdf)
   print(rdf)
   savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
-
 
 
   # convert object name item to character

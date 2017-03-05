@@ -76,7 +76,6 @@ process.matlab.object <- function(mf, matList) {
   for (item in mf$name) {
     cat(item, "\t")
 
-
     kls <- as.character(mf[mf$name == item, "class"]) # get object class
     size <- as.character(mf[mf$name == item,][1, 'size'])
     dim <- as.integer(unlist(strsplit(size, "x")))
@@ -129,6 +128,8 @@ process.matlab.object <- function(mf, matList) {
 }
 
 
+#' main function that convert .mat files to .rda files
+#'
 mat2rda <- function(matfile) {
   # create new environment
   e <- new.env()
@@ -151,26 +152,21 @@ mat2rda <- function(matfile) {
   # iterate through objects in data frame returned from RcppOctave
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
 
+  # process the matlab file objects to convert them to R
   rObject <- process.matlab.object(mf, matList)
+
+  # get a data frame with information of converted R objects
   rdf <- rObject$rdf
+
+  # R objects to save in the .rda file
   toSave <- rObject$toSave
 
-  rdf <- rdf[order(rdf[, 1]), ]
-  rownames(rdf) <- 1:nrow(rdf)
+  rdf <- rdf[order(rdf[, 1]), ]     # sort data frame
+  rownames(rdf) <- 1:nrow(rdf)      # reset the row names
   print(rdf)
+
+  # save the R objects to .rda file
   savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
 
-
-  # convert object name item to character
-  # get the class and dimension for current object
-  # if class is `cell`
-  #   stop if any of the dimension of cell is greater than 1
-  #   unlist the object before assigning to a var
-  #   otherwise assign the object to a var with `assign`
-  # collect the variable names to save later
-
-  # save the objects as .rda file
-
-  # create data frame of new objects in R
   # show data frame of objects in Matlab and R
 }

@@ -586,6 +586,11 @@ matList <- readMatfile(matfile)
 
 ## new function
 ```{r}
+split.matlab.cell <- function(cell, columns) {
+  cell.values <- get(cell)
+  
+}
+
 process.matlab.object <- function(item) {
   kls <- as.character(mf[mf$name == item, "class"]) # get object class
   size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -599,7 +604,9 @@ process.matlab.object <- function(item) {
       # stop("more than one column ...")
       cols <- min(dim[2], dim[1])
       cat("\tcell cols:", cols, "\t")
-      
+      #split.matlab.cell(item, cols)
+      #item.values <- get(item)
+      #cat(class(item.values))
     }
 
   } else if (kls == "char") {
@@ -776,4 +783,74 @@ print.myclass <- function(x, ...) cat("A: ", x$a, " B: ", x$b, "\n", sep = "")
 myobj
 ```
 
+
+```{r}
+## split a 20x5 matrix into five 4x5 matrices 
+xmat <- matrix(1:100, nrow=20, ncol=5, byrow=TRUE) 
+xsplit <- rep( 1:5, times= rep(4, 5)) 
+tmp <- split.data.frame(xmat, xsplit)
+# xmat.new <- data.frame(tmp)
+# xmat.mat <- data.matrix(xmat.new)
+```
+
+```{r}
+## split a 100x1 matrix into five 50x2 matrices 
+xmat2 <- matrix(1:100, nrow=100, ncol=1, byrow=TRUE) 
+xsplit2 <- rep(1:2, times = rep(50, 2)) 
+tmp2 <- split.data.frame(xmat2, xsplit2)
+names(tmp2)
+```
+
+```{r}
+split.matrix <- function(mat, cols) {
+  rows <- length(mat) / cols
+  df.list <- split(as.data.frame(mat), rep(1:cols, each = rows))
+  merged <- do.call("cbind", df.list)
+  return(merged)
+}
+
+tmp <- data.frame()
+split.matrix(geneinfo, 2)
+
+# for (i in df.list) {
+#   print(dim(i))
+#   tmp <- cbind(i, tmp)
+# }
+# tmp
+
+
+```
+```{r}
+do.call("cbind", df.list)
+```
+
+
+
+```{r}
+xmat0 <- geneinfo
+split(as.matrix(xmat0), rep(1:2, each = 51))
+```
+
+
+```{r}
+# a. 2 matrices which the first one consists of the first 500 rows, and the
+# second one consist of the last 500 rows
+xmat3 <- as.matrix(rnorm(100, 1, 0.5))
+split(as.data.frame(xmat3), rep(1:2, each = 50))
+```
+
+```{r}
+#  b. split the matrix equally and sequentially (according to the order of the
+#  rows) into say 10 matrices with 100 x 4 dimension
+split(as.data.frame(xmat3), rep(1:10, each = 100))
+```
+
+```{r}
+split(as.data.frame(xmat3)[sample(1:nrow(xmat3)),], rep(1:10, each = 100))
+```
+
+```{r}
+# split in ten matrices of 100 elements each
+split(as.matrix(xmat3), rep(1:10, each = 100))
+```
 

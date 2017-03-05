@@ -93,13 +93,16 @@ process.matlab.object <- function(mf, matList, rdaFile) {
         cell <- split.matrix(get(item), cols)
         assign(item, cell)
       }
-
     } else if (kls == "char") {
-      assign(item, as.character(unlist(matList[[item]])))
+        assign(item, as.character(unlist(matList[[item]])))
     } else if (kls == "double") {
-      assign(item, matList[[item]])
+        assign(item, matList[[item]])
+    } else if (kls == "struct") {
+        # cat("struct <--")
+        # assign(item, unlist(matList[[item]]))
+        assign(item, matList[[item]][,,1])
     } else {
-      assign(item, matList[[item]])
+        assign(item, matList[[item]])
 
     }
     # get the object from the string
@@ -166,8 +169,8 @@ mat2rda <- function(matfile) {
 
   rdf <- rdf[order(rdf[, 1]), ]     # sort data frame
   rownames(rdf) <- 1:nrow(rdf)      # reset the row names
-  print(rdf)
+  print(rdf)                        # show data frame of objects in Matlab and R
 
 
-  # show data frame of objects in Matlab and R
+
 }

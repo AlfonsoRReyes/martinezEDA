@@ -251,6 +251,7 @@ mat2rda(matfile)
 > check this object. In Matlab is an structure. --------------------------=======++++++
 
 ```{r}
+source(paste(project.R, "convert.R", sep = "/"))
 matfile <- "swissroll.mat"
 
 mat2rda(matfile)

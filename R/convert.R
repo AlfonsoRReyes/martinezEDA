@@ -142,12 +142,10 @@ mat2rda <- function(matfile) {
 
   # get info from the Matlab file using RcppOctave
   mf <- matInfo(matfile)
-  assign('mf', mf, envir = .GlobalEnv)
 
   # read the Matlab file from R
   matList <- readMatfile(matfile)   # load the Matlab file results to a list
   print(names(matList))
-  assign('matList', matList, envir = .GlobalEnv)
 
   # iterate through objects in data frame returned from RcppOctave
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")

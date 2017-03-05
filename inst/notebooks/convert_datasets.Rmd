@@ -585,24 +585,28 @@ matList <- readMatfile(matfile)
 ```
 
 ## new function
-```{r}
-split.matlab.cell <- function(cell, columns) {
-  cell.values <- get(cell)
-  
-}
 
-split.matrix <- function(item, cols) {
-  mat <- get(item)
+```{r}
+#' split a 1-D matrix in a 2-D matrix by means of the # columns
+split.matrix <- function(mat, cols) {
   rows <- length(mat) / cols
-  df.list <- split(as.data.frame(mat), rep(1:cols, each = rows))
+  df.list <- split(as.data.frame(mat, stringsAsFactors = FALSE), 
+                   rep(1:cols, each = rows))
   merged <- do.call("cbind", df.list)           # join the data frames in list
   names(merged) <- as.matrix(merged[1, ])       # extract variable names
   merged <- merged[-1, ]                        # remove row 1
   rownames(merged) <- 1:nrow(merged)                           # reset row numbers
+  merged <- as.matrix(merged)
   return(merged)
 }
 
+# geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
+# res <- split.matrix(geneinfo.tmp, 2)
+# dim(res)
+# class(res)
+```
 
+```{r}
 process.matlab.object <- function(item) {
   kls <- as.character(mf[mf$name == item, "class"]) # get object class
   size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -616,9 +620,8 @@ process.matlab.object <- function(item) {
       # stop("more than one column ...")
       cols <- min(dim[2], dim[1])
       cat("\tcell cols:", cols, "\t")
-      assign(item, split.matrix(item, cols))
-      #item.values <- get(item)
-      #cat(class(item.values))
+      cell <- split.matrix(get(item), cols)
+      assign(item, cell)
     }
 
   } else if (kls == "char") {
@@ -670,7 +673,6 @@ for (item in mf$name) {
 rdf <- rdf[order(rdf[, 1]), ]
 rownames(rdf) <- 1:nrow(rdf)
 rdf
-toSave
 savetoRda(list = toSave, file = rdaFile)
 ```
 

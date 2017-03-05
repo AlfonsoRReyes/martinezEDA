@@ -607,7 +607,6 @@ process.matlab.object <- function(item) {
   dim <- as.integer(unlist(strsplit(size, "x")))
   
   if (kls == "cell") {
-    klass <- "cell"
     assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell    
     
     if ( (dim[2] >=2) & (dim[1] >= 2) ) {
@@ -620,12 +619,9 @@ process.matlab.object <- function(item) {
 
   } else if (kls == "char") {
       assign(item, as.character(unlist(matList[[item]])))
-      klass <- "char"
   } else if (kls == "double") {
-      klass <- "double"
       assign(item, matList[[item]])
   } else {
-      klass <- "else"
       assign(item, matList[[item]])
       
   }

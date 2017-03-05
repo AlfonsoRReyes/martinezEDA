@@ -3,10 +3,11 @@ title: "Convert Datasets"
 output: html_notebook
 ---
 
-
 ```{r}
-source(paste(project.R, "functions.R", sep = "/"))
+source(paste(project.R, "convert.R", sep = "/"))
 ```
+
+
 
 ## abrasion
 ```{r}
@@ -227,7 +228,7 @@ mat2rda(matfile)
 ```
 
 ## swissroll
-> check this object. In Matlab is an structure. --------------------------=======++++++
+In Matlab `Yiso` is an structure
 
 ```{r}
 source(paste(project.R, "convert.R", sep = "/"))
@@ -310,7 +311,6 @@ source(paste(project.R, "convert.R", sep = "/"))
 matfile <- "leukemia.mat"
 
 res <- mat2rda(matfile)
-#names(res)
 ```
 
 

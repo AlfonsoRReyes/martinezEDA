@@ -584,6 +584,24 @@ mf
 matList <- readMatfile(matfile)
 ```
 
+```{r}
+source(paste(project.R, "functions.R", sep = "/"))
+source(paste(project.R, "convert.R", sep = "/"))
+
+```
+
+# testing new integrated function
+```{r}
+source(paste(project.R, "convert.R", sep = "/"))
+
+matfile <- "leukemia.mat"
+
+res <- mat2rda(matfile)
+#names(res)
+```
+
+
+
 ## new function
 
 ```{r}
@@ -646,7 +664,6 @@ process.matlab.object <- function(item) {
 ```
 
 ```{r}
-
 
 # main
 rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
@@ -861,5 +878,16 @@ split(as.data.frame(xmat3)[sample(1:nrow(xmat3)),], rep(1:10, each = 100))
 ```{r}
 # split in ten matrices of 100 elements each
 split(as.matrix(xmat3), rep(1:10, each = 100))
+```
+
+```{r}
+test.env <- new.env()
+
+assign('var', 100, envir=test.env)
+# or simply
+test.env$var <- 100
+
+get('var') # var cannot be found since it is not defined in this environment
+get('var', envir=test.env) # now it can be found
 ```
 

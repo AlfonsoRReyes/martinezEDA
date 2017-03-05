@@ -591,6 +591,18 @@ split.matlab.cell <- function(cell, columns) {
   
 }
 
+split.matrix <- function(item, cols) {
+  mat <- get(item)
+  rows <- length(mat) / cols
+  df.list <- split(as.data.frame(mat), rep(1:cols, each = rows))
+  merged <- do.call("cbind", df.list)           # join the data frames in list
+  names(merged) <- as.matrix(merged[1, ])       # extract variable names
+  merged <- merged[-1, ]                        # remove row 1
+  rownames(merged) <- 1:nrow(merged)                           # reset row numbers
+  return(merged)
+}
+
+
 process.matlab.object <- function(item) {
   kls <- as.character(mf[mf$name == item, "class"]) # get object class
   size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -604,7 +616,7 @@ process.matlab.object <- function(item) {
       # stop("more than one column ...")
       cols <- min(dim[2], dim[1])
       cat("\tcell cols:", cols, "\t")
-      #split.matlab.cell(item, cols)
+      assign(item, split.matrix(item, cols))
       #item.values <- get(item)
       #cat(class(item.values))
     }
@@ -805,24 +817,20 @@ names(tmp2)
 split.matrix <- function(mat, cols) {
   rows <- length(mat) / cols
   df.list <- split(as.data.frame(mat), rep(1:cols, each = rows))
-  merged <- do.call("cbind", df.list)
+  merged <- do.call("cbind", df.list)           # join the data frames in list
+  names(merged) <- as.matrix(merged[1, ])       # extract variable names
+  merged <- merged[-1, ]                        # remove row 1
+  rownames(merged) <- 1:nrow(merged)                           # reset row numbers
   return(merged)
 }
 
-tmp <- data.frame()
-split.matrix(geneinfo, 2)
 
-# for (i in df.list) {
-#   print(dim(i))
-#   tmp <- cbind(i, tmp)
-# }
-# tmp
+
+geneinfo.cell <- split.matrix(geneinfo, 2)
 
 
 ```
-```{r}
-do.call("cbind", df.list)
-```
+
 
 
 

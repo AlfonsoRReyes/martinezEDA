@@ -26,7 +26,6 @@ mat2rda(matfile)
 matfile <- "calibrat.mat"
 
 mat2rda(matfile)
-
 ```
 
 ## cereal
@@ -303,11 +302,6 @@ mf
 matList <- readMatfile(matfile)
 ```
 
-```{r}
-source(paste(project.R, "functions.R", sep = "/"))
-source(paste(project.R, "convert.R", sep = "/"))
-
-```
 
 # testing new integrated function
 ```{r}

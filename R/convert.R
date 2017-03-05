@@ -77,7 +77,7 @@ process.matlab.object <- function(mf, matList, rdaFile) {
   rdf <- data.frame()
 
   for (item in mf$name) {
-    cat(item, "\t")
+    # cat(item, "\t")
 
     kls <- as.character(mf[mf$name == item, "class"]) # get object class
     size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -89,7 +89,7 @@ process.matlab.object <- function(mf, matList, rdaFile) {
       if ( (dim[2] >=2) & (dim[1] >= 2) ) {
         # stop("more than one column ...")
         cols <- min(dim[2], dim[1])
-        cat("\tcell cols:", cols, "\t")
+        # cat("\tcell cols:", cols, "\t")
         cell <- split.matrix(get(item), cols)
         assign(item, cell)
       }
@@ -120,10 +120,10 @@ process.matlab.object <- function(mf, matList, rdaFile) {
     whole <- item.whole
     assign(whole$name, whole$values)
     row <- whole$properties
-    cat(row$Rclass, row$typeof)
+    # cat(row$Rclass, row$typeof)
     row.df <- data.frame(row, stringsAsFactors = FALSE)
     rdf <- rbind(row.df, rdf)
-    cat("\n")
+    # cat("\n")
     toSave <- c(toSave, whole$name)
   }
   # save the R objects to .rda file
@@ -138,7 +138,6 @@ process.matlab.object <- function(mf, matList, rdaFile) {
 #'
 mat2rda <- function(matfile) {
 
-
   # provide the Matlab file name
   matfilepath <- paste(project.extdata, matfile, sep = "/")
 
@@ -151,7 +150,7 @@ mat2rda <- function(matfile) {
 
   # read the Matlab file from R
   matList <- readMatfile(matfile)   # load the Matlab file results to a list
-  print(names(matList))
+  # print(names(matList))
 
   # iterate through objects in data frame returned from RcppOctave
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")

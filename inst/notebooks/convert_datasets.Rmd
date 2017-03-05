@@ -600,13 +600,7 @@ split.matrix <- function(mat, cols) {
   return(merged)
 }
 
-# geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
-# res <- split.matrix(geneinfo.tmp, 2)
-# dim(res)
-# class(res)
-```
 
-```{r}
 process.matlab.object <- function(item) {
   kls <- as.character(mf[mf$name == item, "class"]) # get object class
   size <- as.character(mf[mf$name == item,][1, 'size'])
@@ -648,6 +642,14 @@ process.matlab.object <- function(item) {
   item.whole <- list(values = obj, name = item, properties = item.props)
   return(item.whole)
 }
+
+# geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
+# res <- split.matrix(geneinfo.tmp, 2)
+# dim(res)
+# class(res)
+```
+
+```{r}
 
 
 # main

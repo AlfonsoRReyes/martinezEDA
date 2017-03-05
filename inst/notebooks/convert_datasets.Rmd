@@ -203,22 +203,12 @@ mat2rda(matfile)
 ```{r}
 matfile <- "software.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
-
 mat2rda(matfile)
 ```
 
 ## spam
 ```{r}
 matfile <- "spam.mat"
-
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 
 mat2rda(matfile)
 ```
@@ -227,22 +217,12 @@ mat2rda(matfile)
 ```{r}
 matfile <- "spam.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
-
 mat2rda(matfile)
 ```
 
 ## stockreturns
 ```{r}
 matfile <- "stockreturns.mat"
-
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 
 mat2rda(matfile)
 ```
@@ -261,21 +241,12 @@ mat2rda(matfile)
 ```{r}
 matfile <- "votfraud.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 mat2rda(matfile)
 ```
 
 ## yeast
 ```{r}
 matfile <- "yeast.mat"
-
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 
 mat2rda(matfile)
 ```
@@ -284,22 +255,12 @@ mat2rda(matfile)
 ```{r}
 matfile <- "hamster.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
-
 mat2rda(matfile)
 ```
 
 ## iradbpm
 ```{r}
 matfile <- "iradbpm.mat"
-
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 
 mat2rda(matfile)
 ```
@@ -315,10 +276,6 @@ mat2rda(matfile)
 ```{r}
 matfile <- "L1bpm.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# matList <- readMatfile(matfile)
-
 mat2rda(matfile)
 ```
 
@@ -326,9 +283,6 @@ mat2rda(matfile)
 ```{r}
 matfile <- "sparrow.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
 matList <- readMatfile(matfile)
 
 mat2rda(matfile)
@@ -337,10 +291,6 @@ mat2rda(matfile)
 ```{r}
 matfile <- "livestock.mat"
 
-# mf <- matInfo(matfile)
-# mf
-# 
-# matList <- readMatfile(matfile)
 mat2rda(matfile)
 ```
 

@@ -546,33 +546,33 @@ saveMatlabVars()
 ```{r}
 matfile <- "L1bpm.mat"
 
-mf <- matInfo(matfile)
-mf
+# mf <- matInfo(matfile)
+# mf
+# matList <- readMatfile(matfile)
 
-matList <- readMatfile(matfile)
-# saveMatlabVars(matfile, mf, matList)
-# saveMatlabVars()
+mat2rda(matfile)
 ```
 
 ## sparrow
 ```{r}
 matfile <- "sparrow.mat"
 
-mf <- matInfo(matfile)
-mf
-
+# mf <- matInfo(matfile)
+# mf
+# 
 matList <- readMatfile(matfile)
-# saveMatlabVars(matfile, mf, matList)
-# saveMatlabVars()
+
+mat2rda(matfile)
 ```
 
 ```{r}
 matfile <- "livestock.mat"
 
-mf <- matInfo(matfile)
-mf
-
-matList <- readMatfile(matfile)
+# mf <- matInfo(matfile)
+# mf
+# 
+# matList <- readMatfile(matfile)
+mat2rda(matfile)
 ```
 
 ```{r}

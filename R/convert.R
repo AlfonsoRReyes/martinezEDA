@@ -69,7 +69,10 @@ split.matrix <- function(mat, cols) {
 }
 
 
-process.matlab.object <- function(mf, matList) {
+process.matlab.object <- function(mf, matList, rdaFile) {
+  # create new environment
+  e <- new.env()
+
   toSave <- NULL
   rdf <- data.frame()
 
@@ -123,16 +126,18 @@ process.matlab.object <- function(mf, matList) {
     cat("\n")
     toSave <- c(toSave, whole$name)
   }
-  rBlock <- list(rdf = rdf, toSave = toSave)
-  return(rBlock)
+  # save the R objects to .rda file
+  savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
+
+  #rBlock <- list(rdf = rdf, toSave = toSave)
+  return(rdf)
 }
 
 
 #' main function that convert .mat files to .rda files
 #'
 mat2rda <- function(matfile) {
-  # create new environment
-  e <- new.env()
+
 
   # provide the Matlab file name
   matfilepath <- paste(project.extdata, matfile, sep = "/")
@@ -142,6 +147,7 @@ mat2rda <- function(matfile) {
 
   # get info from the Matlab file using RcppOctave
   mf <- matInfo(matfile)
+  print(mf)
 
   # read the Matlab file from R
   matList <- readMatfile(matfile)   # load the Matlab file results to a list
@@ -151,20 +157,18 @@ mat2rda <- function(matfile) {
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
 
   # process the matlab file objects to convert them to R
-  rObject <- process.matlab.object(mf, matList)
+  rdf <- process.matlab.object(mf, matList, rdaFile)
 
   # get a data frame with information of converted R objects
-  rdf <- rObject$rdf
+  #rdf <- rObject$rdf
 
   # R objects to save in the .rda file
-  toSave <- rObject$toSave
+  #toSave <- rObject$toSave
 
   rdf <- rdf[order(rdf[, 1]), ]     # sort data frame
   rownames(rdf) <- 1:nrow(rdf)      # reset the row names
   print(rdf)
 
-  # save the R objects to .rda file
-  savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
 
   # show data frame of objects in Matlab and R
 }

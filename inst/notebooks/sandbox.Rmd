@@ -3,6 +3,296 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+
+## new function
+
+```{r}
+#' split a 1-D matrix in a 2-D matrix by means of the # columns
+split.matrix <- function(mat, cols) {
+  rows <- length(mat) / cols
+  df.list <- split(as.data.frame(mat, stringsAsFactors = FALSE), 
+                   rep(1:cols, each = rows))
+  merged <- do.call("cbind", df.list)           # join the data frames in list
+  names(merged) <- as.matrix(merged[1, ])       # extract variable names
+  merged <- merged[-1, ]                        # remove row 1
+  rownames(merged) <- 1:nrow(merged)                           # reset row numbers
+  merged <- as.matrix(merged)
+  return(merged)
+}
+
+
+process.matlab.object <- function(item) {
+  kls <- as.character(mf[mf$name == item, "class"]) # get object class
+  size <- as.character(mf[mf$name == item,][1, 'size'])
+  dim <- as.integer(unlist(strsplit(size, "x")))
+  
+  if (kls == "cell") {
+    assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell    
+    
+    if ( (dim[2] >=2) & (dim[1] >= 2) ) {
+      # stop("more than one column ...")
+      cols <- min(dim[2], dim[1])
+      cat("\tcell cols:", cols, "\t")
+      cell <- split.matrix(get(item), cols)
+      assign(item, cell)
+    }
+
+  } else if (kls == "char") {
+      assign(item, as.character(unlist(matList[[item]])))
+  } else if (kls == "double") {
+      assign(item, matList[[item]])
+  } else {
+      assign(item, matList[[item]])
+      
+  }
+    # get the object from the string
+  obj <- get(item)
+  dims <- ifelse(kls == "char", "NULL", paste(dim(obj), collapse = "x"))
+  len <- ifelse(kls == "char", nchar(obj), length(obj))
+  kls <- class(obj)
+  to <- typeof(obj)
+  stir <- capture.output(str(obj))[1]
+  
+  item.props <- list(Rname = item, dims = dims, length = len, Rclass = kls, 
+                typeof = to, value = stir)
+  item.whole <- list(values = obj, name = item, properties = item.props)
+  return(item.whole)
+}
+
+# geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
+# res <- split.matrix(geneinfo.tmp, 2)
+# dim(res)
+# class(res)
+```
+
+```{r}
+
+# main
+rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
+toSave <- NULL
+rdf <- data.frame()
+
+for (item in mf$name) {
+  # cat(item, class(item), "\n")
+  cat(item, "\t")
+  #print(process.matlab.object(item)$Rname)
+  
+  # row <- process.matlab.object(item)
+  whole <- process.matlab.object(item)
+  assign(whole$name, whole$values)
+  row <- whole$properties
+  cat(row$Rclass, row$typeof)
+  row.df <- data.frame(row, stringsAsFactors = FALSE)
+  rdf <- rbind(row.df, rdf)
+  cat("\n")
+  toSave <- c(toSave, whole$name)
+}   
+rdf <- rdf[order(rdf[, 1]), ]
+rownames(rdf) <- 1:nrow(rdf)
+rdf
+savetoRda(list = toSave, file = rdaFile)
+```
+
+```{r}
+# provide the Matlab file name
+# stop if Matlab file does not exist
+# get info from the Matlab file using RcppOctave
+
+
+# read the Matlab file from R
+# load the Matlab file results to a list
+
+# iterate through objects in data frame returned from RcppOctave
+  # convert object name item to character
+  # get the class and dimension for current object
+  # if class is `cell` 
+  #   stop if any of the dimension of cell is greater than 1
+  #   unlist the object before assigning to a var
+  #   otherwise assign the object to a var with `assign`
+  # collect the variable names to save later
+
+# save the objects as .rda file
+
+# create data frame of new objects in R
+# show data frame of objects in Matlab and R
+
+```
+
+
+
+
+
+
+## old function
+```{r}
+  rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
+  toSave <- NULL
+  rdf <- data.frame()
+
+  for (item in mf$name) {
+    # item <- as.character(item)   # convert to character
+    cat(item)
+    kls <- as.character(mf[mf$name == item, "class"]) # get object class
+    size <- as.character(mf[mf$name == item,][1, 'size'])
+    dim <- as.integer(unlist(strsplit(size, "x")))
+    cat(" ", kls, dim)
+    
+    if (kls == "cell") {
+      # a Matlab cell is equivalent to a R matrix
+      # print("Matlab cell")
+      if (dim[2] & dim[1] > 1) stop("more than one column ...")
+      assign(item, as.matrix(unlist(matList[[item]])))  # unlist if object is a cell
+    } else if (kls == "char") {
+      print("char vector")
+      assign(item, as.character(unlist(matList[[item]]))[1])
+      
+    } else {
+      assign(item, matList[[item]])
+    }
+    
+    cat(class(get(item)))   # get the class before passing to function
+    toSave <- c(toSave, item)
+    row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
+    rdf <- rbind(row, rdf)
+    cat("\n")
+    
+  }
+  rdf <- rdf[order(rdf[, 1]), ]
+  # toSave
+  savetoRda(list = toSave, file = rdaFile)
+  rdf
+```
+
+
+```{r}
+getObject.info <- function(item) {
+  obj <- get(item)
+  stir <- capture.output(str(obj))[1]
+  dims <- paste(dim(obj), collapse = "x")
+  len <- length(obj)
+  kls <- class(obj)
+  to <- typeof(obj)
+  #cat(item, class(get(item)), "\n")
+  list(Rname = item, dims = dims, 
+       length = len, Rclass = kls, typeof = to)
+}
+
+#data.frame(getObject.info(item))
+df <- data.frame()
+for (item in toSave) {
+  #print(item)
+  row <- data.frame(getObject.info(item), stringsAsFactors = FALSE)
+  df <- rbind(row, df)
+}
+
+df[order(df[, 1]), ]
+#df
+
+```
+
+
+
+
+```{r}
+#item
+obj <- get(item)
+capture.output(str(obj))[1]
+paste(dim(obj), collapse = "x")
+length(obj)
+class(obj)
+typeof(obj)
+```
+
+
+
+
+
+
+
+```{r}
+myobj <- structure(list(a = 1, b = 2), class = "myclass")
+print.myclass <- function(x, ...) cat("A: ", x$a, " B: ", x$b, "\n", sep = "")
+myobj
+```
+
+
+```{r}
+## split a 20x5 matrix into five 4x5 matrices 
+xmat <- matrix(1:100, nrow=20, ncol=5, byrow=TRUE) 
+xsplit <- rep( 1:5, times= rep(4, 5)) 
+tmp <- split.data.frame(xmat, xsplit)
+# xmat.new <- data.frame(tmp)
+# xmat.mat <- data.matrix(xmat.new)
+```
+
+```{r}
+## split a 100x1 matrix into five 50x2 matrices 
+xmat2 <- matrix(1:100, nrow=100, ncol=1, byrow=TRUE) 
+xsplit2 <- rep(1:2, times = rep(50, 2)) 
+tmp2 <- split.data.frame(xmat2, xsplit2)
+names(tmp2)
+```
+
+```{r}
+split.matrix <- function(mat, cols) {
+  rows <- length(mat) / cols
+  df.list <- split(as.data.frame(mat), rep(1:cols, each = rows))
+  merged <- do.call("cbind", df.list)           # join the data frames in list
+  names(merged) <- as.matrix(merged[1, ])       # extract variable names
+  merged <- merged[-1, ]                        # remove row 1
+  rownames(merged) <- 1:nrow(merged)                           # reset row numbers
+  return(merged)
+}
+
+
+
+geneinfo.cell <- split.matrix(geneinfo, 2)
+
+
+```
+
+
+
+
+```{r}
+xmat0 <- geneinfo
+split(as.matrix(xmat0), rep(1:2, each = 51))
+```
+
+
+```{r}
+# a. 2 matrices which the first one consists of the first 500 rows, and the
+# second one consist of the last 500 rows
+xmat3 <- as.matrix(rnorm(100, 1, 0.5))
+split(as.data.frame(xmat3), rep(1:2, each = 50))
+```
+
+```{r}
+#  b. split the matrix equally and sequentially (according to the order of the
+#  rows) into say 10 matrices with 100 x 4 dimension
+split(as.data.frame(xmat3), rep(1:10, each = 100))
+```
+
+```{r}
+split(as.data.frame(xmat3)[sample(1:nrow(xmat3)),], rep(1:10, each = 100))
+```
+
+```{r}
+# split in ten matrices of 100 elements each
+split(as.matrix(xmat3), rep(1:10, each = 100))
+```
+
+```{r}
+test.env <- new.env()
+
+assign('var', 100, envir=test.env)
+# or simply
+test.env$var <- 100
+
+get('var') # var cannot be found since it is not defined in this environment
+get('var', envir=test.env) # now it can be found
+```
+
 ```{r}
 convertMat2Rda <- function(mat_files) {
   for (i in mat_files) {

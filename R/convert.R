@@ -69,44 +69,63 @@ split.matrix <- function(mat, cols) {
 }
 
 
-process.matlab.object <- function(item) {
-  # matList <- get('matList', envir = parent.env(e))
+process.matlab.object <- function(mf, matList) {
+  toSave <- NULL
+  rdf <- data.frame()
 
-  kls <- as.character(mf[mf$name == item, "class"]) # get object class
-  size <- as.character(mf[mf$name == item,][1, 'size'])
-  dim <- as.integer(unlist(strsplit(size, "x")))
+  for (item in mf$name) {
+    cat(item, "\t")
 
-  if (kls == "cell") {
-    assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell
 
-    if ( (dim[2] >=2) & (dim[1] >= 2) ) {
-      # stop("more than one column ...")
-      cols <- min(dim[2], dim[1])
-      cat("\tcell cols:", cols, "\t")
-      cell <- split.matrix(get(item), cols)
-      assign(item, cell)
+    kls <- as.character(mf[mf$name == item, "class"]) # get object class
+    size <- as.character(mf[mf$name == item,][1, 'size'])
+    dim <- as.integer(unlist(strsplit(size, "x")))
+
+    if (kls == "cell") {
+      assign(item, as.matrix(unlist(matList[[item]])))  # unlist if cell
+
+      if ( (dim[2] >=2) & (dim[1] >= 2) ) {
+        # stop("more than one column ...")
+        cols <- min(dim[2], dim[1])
+        cat("\tcell cols:", cols, "\t")
+        cell <- split.matrix(get(item), cols)
+        assign(item, cell)
+      }
+
+    } else if (kls == "char") {
+      assign(item, as.character(unlist(matList[[item]])))
+    } else if (kls == "double") {
+      assign(item, matList[[item]])
+    } else {
+      assign(item, matList[[item]])
+
     }
+    # get the object from the string
+    obj <- get(item)
+    dims <- ifelse(kls == "char", "NULL", paste(dim(obj), collapse = "x"))
+    len <- ifelse(kls == "char", nchar(obj), length(obj))
+    kls <- class(obj)
+    to <- typeof(obj)
+    stir <- capture.output(str(obj))[1]
 
-  } else if (kls == "char") {
-    assign(item, as.character(unlist(matList[[item]])))
-  } else if (kls == "double") {
-    assign(item, matList[[item]])
-  } else {
-    assign(item, matList[[item]])
+    item.props <- list(Rname = item, dims = dims, length = len, Rclass = kls,
+                       typeof = to, value = stir)
+    item.whole <- list(values = obj, name = item, properties = item.props)
 
+    ## return(item.whole)
+    ##################################################
+    ## whole <- process.matlab.object(item)
+    whole <- item.whole
+    assign(whole$name, whole$values)
+    row <- whole$properties
+    cat(row$Rclass, row$typeof)
+    row.df <- data.frame(row, stringsAsFactors = FALSE)
+    rdf <- rbind(row.df, rdf)
+    cat("\n")
+    toSave <- c(toSave, whole$name)
   }
-  # get the object from the string
-  obj <- get(item)
-  dims <- ifelse(kls == "char", "NULL", paste(dim(obj), collapse = "x"))
-  len <- ifelse(kls == "char", nchar(obj), length(obj))
-  kls <- class(obj)
-  to <- typeof(obj)
-  stir <- capture.output(str(obj))[1]
-
-  item.props <- list(Rname = item, dims = dims, length = len, Rclass = kls,
-                     typeof = to, value = stir)
-  item.whole <- list(values = obj, name = item, properties = item.props)
-  return(item.whole)
+  rBlock <- list(rdf = rdf, toSave = toSave)
+  return(rBlock)
 }
 
 # geneinfo.tmp <- as.matrix(unlist(matList$geneinfo))
@@ -162,24 +181,11 @@ mat2rda <- function(matfile) {
 
   # iterate through objects in data frame returned from RcppOctave
   rdaFile <- paste(unlist(strsplit(matfile, "\\."))[1], "rda",sep = ".")
-  toSave <- NULL
-  rdf <- data.frame()
 
-  for (item in mf$name) {
-    # cat(item, class(item), "\n")
-    cat(item, "\t")
-    #print(process.matlab.object(item)$Rname)
+  rObject <- process.matlab.object(mf, matList)
+  rdf <- rObject$rdf
+  toSave <- rObject$toSave
 
-    # row <- process.matlab.object(item)
-    whole <- process.matlab.object(item)
-    assign(whole$name, whole$values)
-    row <- whole$properties
-    cat(row$Rclass, row$typeof)
-    row.df <- data.frame(row, stringsAsFactors = FALSE)
-    rdf <- rbind(row.df, rdf)
-    cat("\n")
-    toSave <- c(toSave, whole$name)
-  }
   rdf <- rdf[order(rdf[, 1]), ]
   rownames(rdf) <- 1:nrow(rdf)
   print(rdf)

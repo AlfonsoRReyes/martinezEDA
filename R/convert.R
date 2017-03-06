@@ -1,7 +1,6 @@
 library(R.matlab)
 library(RcppOctave)
 
-
 readMatfile <- function(matfile, folder = project.extdata, verbose = FALSE) {
   matfileLong <- paste(folder, matfile, sep = "/")
   # print(matfileLong)
@@ -43,8 +42,6 @@ savetoRda <- function(..., file, folder = project.data) {
 }
 
 
-#' load .mat file in Octave
-#' and get basic info
 o.loader <- OctaveFunction("
 function [struct] = readMatfile(mfile)
   load(mfile)

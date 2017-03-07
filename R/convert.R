@@ -118,13 +118,16 @@ process.matlab.object <- function(mf, matList, rdaFile) {
     ##################################################
     ## whole <- process.matlab.object(item)
     whole <- item.whole
-    assign(whole$name, whole$values)
-    row <- whole$properties
-    # cat(row$Rclass, row$typeof)
-    row.df <- data.frame(row, stringsAsFactors = FALSE)
-    rdf <- rbind(row.df, rdf)
-    # cat("\n")
-    toSave <- c(toSave, whole$name)
+      if (whole$name != "comment") {
+      assign(whole$name, whole$values)
+      row <- whole$properties
+      # cat(row$Rclass, row$typeof)
+      row.df <- data.frame(row, stringsAsFactors = FALSE)
+      rdf <- rbind(row.df, rdf)
+      # cat("\n")
+      toSave <- c(toSave, whole$name)
+    }
+
   }
   # save the R objects to .rda file
   savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))

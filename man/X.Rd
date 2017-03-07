@@ -5,9 +5,12 @@
 \alias{X}
 \alias{X}
 \alias{X}
+\alias{X}
 \title{data.rda}
 \format{An object of class \code{matrix} with 3 rows and 800 columns.}
 \usage{
+X
+
 X
 
 X
@@ -20,5 +23,7 @@ data.rda
 num 6x5
 
 3x2000
+
+3x800
 }
 \keyword{datasets}

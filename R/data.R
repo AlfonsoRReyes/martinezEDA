@@ -48,8 +48,6 @@
 "Equivalence"
 #' num, 1x88
 "NOx"
-#' char
-"comment"
 
 
 #' forearm.rda
@@ -117,8 +115,6 @@
 "LivestockName"
 #' num 1 x 130
 "LivestockType"
-#' char
-"comment"
 
 #' lsiex.rda
 #'
@@ -176,8 +172,6 @@
 "Stamford"
 #' num 132x1
 "Yonkers"
-#' char
-"comment"
 
 #' playfair.rda
 #' num 22x1
@@ -186,8 +180,6 @@
 "labs"
 #' num 22x1
 "Population"
-#' char
-"comment"
 
 #' pollen.rda
 "data"
@@ -291,6 +283,27 @@
 
 #' stockreturns.rda
 "stocks"
+
+#' swisroll.rda
+#'
+#' list
+"Yiso"
+#' 3x800
+"X"
+
+#' votfraud.rda
+#'
+#' 22x1
+"absentee"
+#' 22x1
+"machine"
+
+#' yeast.rda
+#'
+#' 384x1
+"classlabs"
+#' 384x17
+"data"
 
 
 

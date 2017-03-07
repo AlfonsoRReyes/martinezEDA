@@ -3,12 +3,17 @@
 \docType{data}
 \name{data}
 \alias{data}
+\alias{data}
 \title{pollen.rda}
 \format{An object of class \code{matrix} with 384 rows and 17 columns.}
 \usage{
 data
+
+data
 }
 \description{
 pollen.rda
+
+384x17
 }
 \keyword{datasets}

@@ -82,8 +82,9 @@ mat2rda(matfile)
 ## hamster
 ```{r}
 matfile <- "hamster.mat"
-
 mat2rda(matfile)
+
+load(paste(project.data, "hamster.rda", sep = "/"))
 ```
 
 ## iradbpm

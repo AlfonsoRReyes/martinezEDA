@@ -1,34 +1,3 @@
-#' singer.rda
-#' @docType data
-#'
-"Alto_1"
-#' Alto_2
-"Alto_2"
-#' Bass_1
-"Bass_1"
-#' Bass_2
-"Bass_2"
-#' Soprano_1
-"Soprano_1"
-#' Soprano_2
-"Soprano_2"
-#' numeric, 1 column
-"Tenor_1"
-#' numeric, 1 column
-"Tenor_2"
-
-
-#' ethanol.rda
-#'
-#' num, 1x88
-"Compression"
-#' num 1x88
-"Equivalence"
-#' num, 1x88
-"NOx"
-#' char
-"comment"
-
 #' abrasion.rda
 #'
 #' num, 1x30
@@ -70,6 +39,18 @@
 "Temperature"
 #' num, 1x111
 "WindSpeed"
+
+#' ethanol.rda
+#'
+#' num, 1x88
+"Compression"
+#' num 1x88
+"Equivalence"
+#' num, 1x88
+"NOx"
+#' char
+"comment"
+
 
 #' forearm.rda
 "forearm"
@@ -260,6 +241,25 @@
 "yy"
 #' num 32x11
 "zz"
+
+#' singer.rda
+#' @docType data
+#'
+"Alto_1"
+#' Alto_2
+"Alto_2"
+#' Bass_1
+"Bass_1"
+#' Bass_2
+"Bass_2"
+#' Soprano_1
+"Soprano_1"
+#' Soprano_2
+"Soprano_2"
+#' numeric, 1 column
+"Tenor_1"
+#' numeric, 1 column
+"Tenor_2"
 
 #' skulls.rda
 #'

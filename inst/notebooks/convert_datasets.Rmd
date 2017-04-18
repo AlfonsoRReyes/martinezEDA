@@ -79,6 +79,34 @@ matfile <- "geyser.mat"
 mat2rda(matfile)
 ```
 
+## hamster
+```{r}
+matfile <- "hamster.mat"
+mat2rda(matfile)
+
+load(paste(project.data, "hamster.rda", sep = "/"))
+```
+
+## iradbpm
+```{r}
+matfile <- "iradbpm.mat"
+
+mat2rda(matfile)
+```
+
+## iris
+```{r}
+matfile <- "iris.mat"
+
+mat2rda(matfile)
+```
+
+## L1bpm
+```{r}
+matfile <- "L1bpm.mat"
+
+mat2rda(matfile)
+```
 
 
 ## leukemia
@@ -94,7 +122,6 @@ mat2rda(matfile)
 matfile <- "livestock.mat"
 
 mat2rda(matfile)
-
 ```
 
 ## lsiex
@@ -215,7 +242,7 @@ mat2rda(matfile)
 
 ## sparrow
 ```{r}
-matfile <- "spam.mat"
+matfile <- "sparrow.mat"
 
 mat2rda(matfile)
 ```
@@ -251,67 +278,7 @@ matfile <- "yeast.mat"
 mat2rda(matfile)
 ```
 
-## hamster
-```{r}
-matfile <- "hamster.mat"
 
-mat2rda(matfile)
-```
-
-## iradbpm
-```{r}
-matfile <- "iradbpm.mat"
-
-mat2rda(matfile)
-```
-
-## iris
-```{r}
-matfile <- "iris.mat"
-
-mat2rda(matfile)
-```
-
-## L1bpm
-```{r}
-matfile <- "L1bpm.mat"
-
-mat2rda(matfile)
-```
-
-## sparrow
-```{r}
-matfile <- "sparrow.mat"
-
-matList <- readMatfile(matfile)
-
-mat2rda(matfile)
-```
-
-```{r}
-matfile <- "livestock.mat"
-
-mat2rda(matfile)
-```
-
-```{r}
-matfile <- "leukemia.mat"
-
-mf <- matInfo(matfile)
-mf
-
-matList <- readMatfile(matfile)
-```
-
-
-# testing new integrated function
-```{r}
-source(paste(project.R, "convert.R", sep = "/"))
-
-matfile <- "leukemia.mat"
-
-res <- mat2rda(matfile)
-```
 
 
 

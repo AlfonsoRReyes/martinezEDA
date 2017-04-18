@@ -1,7 +1,6 @@
 library(R.matlab)
 library(RcppOctave)
 
-
 readMatfile <- function(matfile, folder = project.extdata, verbose = FALSE) {
   matfileLong <- paste(folder, matfile, sep = "/")
   # print(matfileLong)
@@ -43,8 +42,6 @@ savetoRda <- function(..., file, folder = project.data) {
 }
 
 
-#' load .mat file in Octave
-#' and get basic info
 o.loader <- OctaveFunction("
 function [struct] = readMatfile(mfile)
   load(mfile)
@@ -121,13 +118,16 @@ process.matlab.object <- function(mf, matList, rdaFile) {
     ##################################################
     ## whole <- process.matlab.object(item)
     whole <- item.whole
-    assign(whole$name, whole$values)
-    row <- whole$properties
-    # cat(row$Rclass, row$typeof)
-    row.df <- data.frame(row, stringsAsFactors = FALSE)
-    rdf <- rbind(row.df, rdf)
-    # cat("\n")
-    toSave <- c(toSave, whole$name)
+      if (whole$name != "comment") {
+      assign(whole$name, whole$values)
+      row <- whole$properties
+      # cat(row$Rclass, row$typeof)
+      row.df <- data.frame(row, stringsAsFactors = FALSE)
+      rdf <- rbind(row.df, rdf)
+      # cat("\n")
+      toSave <- c(toSave, whole$name)
+    }
+
   }
   # save the R objects to .rda file
   savetoRda(list = toSave, file = rdaFile, envir = parent.env(e))
@@ -170,7 +170,5 @@ mat2rda <- function(matfile) {
   rdf <- rdf[order(rdf[, 1]), ]     # sort data frame
   rownames(rdf) <- 1:nrow(rdf)      # reset the row names
   print(rdf)                        # show data frame of objects in Matlab and R
-
-
 
 }

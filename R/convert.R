@@ -171,6 +171,4 @@ mat2rda <- function(matfile) {
   rownames(rdf) <- 1:nrow(rdf)      # reset the row names
   print(rdf)                        # show data frame of objects in Matlab and R
 
-
-
 }
